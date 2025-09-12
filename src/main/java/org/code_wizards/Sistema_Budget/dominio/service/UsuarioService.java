@@ -1,15 +1,18 @@
 package org.code_wizards.Sistema_Budget.dominio.service;
 
+import org.code_wizards.Sistema_Budget.dominio.dto.ModUsuarioDto;
+import org.code_wizards.Sistema_Budget.dominio.dto.UsuarioDto;
 import org.code_wizards.Sistema_Budget.dominio.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
-        this.usuarioRepository = usuarioRepository;
-    }
+    public UsuarioService(UsuarioRepository usuarioRepository) { this.usuarioRepository = usuarioRepository;}
+
 
     public List<UsuarioDto> obtenerTodo() {
         return this.usuarioRepository.obtenerTodo();
