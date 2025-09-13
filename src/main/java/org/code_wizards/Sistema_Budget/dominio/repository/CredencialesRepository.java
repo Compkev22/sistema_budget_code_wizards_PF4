@@ -10,6 +10,6 @@ public interface CredencialesRepository {
     List<CredencialesDto> obtenerTodo();
     public CredencialesDto buscarPorCodigo(Long idCredencial);
     CredencialesDto guardarCredenciales(CredencialesDto usuarioDto);
-    CredencialesDto modficarCredenciales(Long idCredencial, ModCredencialesDto modCredenciales);
+    CredencialesDto modificarCredenciales(Long idCredencial, ModCredencialesDto modCredenciales);
     void eliminarCredenciales(Long idCredencial);
 }

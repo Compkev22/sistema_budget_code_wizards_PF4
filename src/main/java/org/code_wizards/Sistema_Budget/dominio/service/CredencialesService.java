@@ -25,17 +25,17 @@ public class CredencialesService {
         return this.credencialesRepository.buscarPorCodigo(codigo);
     }
 
-    public CredencialesDto guardarUsuario(CredencialesDto usuarioDto) {
+    public CredencialesDto guardarCredenciales(CredencialesDto usuarioDto) {
         return this.credencialesRepository.guardarCredenciales(usuarioDto);
     }
 
-    public CredencialesDto modificarUsuario(Long codigo, ModCredencialesDto modCredenciales) {
-        return this.credencialesRepository.modficarCredenciales(codigo, modCredenciales);
+    public CredencialesDto modificarCredenciales(Long idCredencial, ModCredencialesDto modCredenciales) {
+        return this.credencialesRepository.modificarCredenciales(idCredencial, modCredenciales);
 
     }
 
-    public void eliminarUsuario(Long codigo) {
-        this.credencialesRepository.eliminarCredenciales(codigo);
+    public void eliminarCredenciales(Long idCredencial) {
+        this.credencialesRepository.eliminarCredenciales(idCredencial);
     }
 
 

@@ -11,7 +11,7 @@ public record CredencialesDto (
         @Min(value = 0, message = "El codigo de usuario es Obligatorio")
         Integer idUsuario,
         @NotBlank(message = "La dirreccion de Correo Electronico es obligatorio")
-        String email,
+        String correo,
         @NotBlank(message = "La contrseña es Obligatoria ")
         String contraseña,
         @PastOrPresent(message = "La fecha es automatica")
