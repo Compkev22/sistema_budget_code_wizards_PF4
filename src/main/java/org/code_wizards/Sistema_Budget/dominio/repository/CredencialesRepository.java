@@ -8,8 +8,8 @@ import java.util.List;
 public interface CredencialesRepository {
 
     List<CredencialesDto> obtenerTodo();
-    public CredencialesDto buscarPorCodigo(Long idCredencial);
+    public CredencialesDto buscarPorCodigo(Long codigo);
     CredencialesDto guardarCredenciales(CredencialesDto usuarioDto);
-    CredencialesDto modificarCredenciales(Long idCredencial, ModCredencialesDto modCredenciales);
-    void eliminarCredenciales(Long idCredencial);
+    CredencialesDto modificarCredenciales(Long codigo, ModCredencialesDto modCredenciales);
+    void eliminarCredenciales(Long codigo);
 }

@@ -4,16 +4,17 @@ import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.PastOrPresent;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 
-public record CredencialesDto (
+public record CredencialesDto(
         Long idCredencial,
         @Min(value = 0, message = "El codigo de usuario es Obligatorio")
-        Integer idUsuario,
-        @NotBlank(message = "La dirreccion de Correo Electronico es obligatorio")
-        String correo,
-        @NotBlank(message = "La contrseña es Obligatoria ")
-        String contraseña,
-        @PastOrPresent(message = "La fecha es automatica")
-        Timestamp fechaRegistro
-){}
+        Integer userID,
+        @NotBlank(message = "La dirección de Correo Electronico es obligatorio")
+        String email,
+        @NotBlank(message = "La contraseña es Obligatoria")
+        String password,
+        @PastOrPresent(message = "La fecha es automática")
+        LocalDateTime dateRecord
+) {}
