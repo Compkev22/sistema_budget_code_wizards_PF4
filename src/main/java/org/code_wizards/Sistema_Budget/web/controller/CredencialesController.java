@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/credenciales/")
+@RequestMapping("/credenciales")
 @Tag(name = "Credenciales", description = "Operaciones Crud para Credenciales dentro del Sistema_Budget")
 public class CredencialesController {
     private final CredencialesService credencialesService;
@@ -31,7 +31,7 @@ public class CredencialesController {
         return ResponseEntity.ok(this.credencialesService.obtenerTodo());
     }
 
-    @GetMapping("{idCredencial}")
+    @GetMapping("/{idCredencial}")
     @Operation(
             summary = "Obtener las Credenciales por su identificador",
             description = "Retorna las credenciales que coincida con el identificador enviado",
@@ -55,14 +55,14 @@ public class CredencialesController {
     }
 
     //Modificar
-    @PutMapping("{idCredencial}")
+    @PutMapping("/{idCredencial}")
     public ResponseEntity<CredencialesDto> modifcarCredenciales
     (@PathVariable Long idCredencial, @RequestBody ModCredencialesDto modCredenciales) {
         return ResponseEntity.ok(this.credencialesService.modificarCredenciales(idCredencial, modCredenciales));
     }
 
     //Eliminar
-    @DeleteMapping("{idCredencial}")
+    @DeleteMapping("/{idCredencial}")
     public ResponseEntity<Void> eliminarCredenciales(@PathVariable Long idCredencial) {
         this.credencialesService.eliminarCredenciales(idCredencial);
         return ResponseEntity.ok().build();

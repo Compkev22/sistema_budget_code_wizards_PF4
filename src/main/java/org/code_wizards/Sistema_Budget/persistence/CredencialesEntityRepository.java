@@ -31,42 +31,45 @@ public class CredencialesEntityRepository implements CredencialesRepository {
     }
 
     @Override
-    public CredencialesDto buscarPorCodigo(Long idCredencial) {
-        return this.credencialesMapper.toDto(this.crudCredencialesEntity.findById(idCredencial).orElse(null));
+    public CredencialesDto buscarPorCodigo(Long codigo) {
+        return this.credencialesMapper.toDto(this.crudCredencialesEntity.findById(codigo).orElse(null));
     }
 
     @Override
     public CredencialesDto guardarCredenciales(CredencialesDto credencialesDto) {
-        if (this.crudCredencialesEntity.findFirstByEmail(credencialesDto.correo()) != null) {
-            throw new CredencialesYaExisteException(credencialesDto.correo());
+        // Validar si ya existe
+        if (this.crudCredencialesEntity.findFirstByEmail(credencialesDto.email()) != null) {
+            throw new CredencialesYaExisteException(credencialesDto.email());
         }
+        CredencialesEntity credenciales = this.credencialesMapper.toEntity(credencialesDto);
 
-        CredencialesEntity credenciales = new CredencialesEntity();
-        // usuario = this.usuarioMapper.toEntity(usuarioDto)
+        // Guardar en base de datos
         this.crudCredencialesEntity.save(credenciales);
+
+        // Retornar DTO
         return this.credencialesMapper.toDto(credenciales);
     }
 
     @Override
-    public CredencialesDto modificarCredenciales(Long idCredencial, ModCredencialesDto modCredenciales) {
-        CredencialesEntity credenciales = this.crudCredencialesEntity.findById(idCredencial).orElse(null);
+    public CredencialesDto modificarCredenciales(Long codigo, ModCredencialesDto modCredenciales) {
+        CredencialesEntity credenciales = this.crudCredencialesEntity.findById(codigo).orElse(null);
         //Excepcion
         if (credenciales == null) {
-            throw new CredencialesNoExisteException(idCredencial);
+            throw new CredencialesNoExisteException(codigo);
         }
         this.credencialesMapper.modificarEntityFromDto(modCredenciales, credenciales);
         return credencialesMapper.toDto(this.crudCredencialesEntity.save(credenciales));
     }
 
     @Override
-    public void eliminarCredenciales(Long idCredencial) {
-        CredencialesEntity credenciales = this.crudCredencialesEntity.findById(idCredencial).orElse(null);
+    public void eliminarCredenciales(Long codigo) {
+        CredencialesEntity credenciales = this.crudCredencialesEntity.findById(codigo).orElse(null);
         this.crudCredencialesEntity.delete(credenciales);
         //Excepcion
         if (credenciales == null) {
-            throw new CredencialesNoExisteException(idCredencial);
+            throw new CredencialesNoExisteException(codigo);
         } else {
-            this.crudCredencialesEntity.deleteById(idCredencial);
+            this.crudCredencialesEntity.deleteById(codigo);
         }
     }
 }

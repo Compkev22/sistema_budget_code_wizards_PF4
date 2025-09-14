@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CrudCredencialesEntity extends CrudRepository<CredencialesEntity, Long> {
 
-    CredencialesEntity findFirstByEmail(String correo);
+    CredencialesEntity findFirstByEmail(String email);
 }

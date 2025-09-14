@@ -12,17 +12,22 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface CredencialesMapper {
 
-    @Mapping(source = "idUsuario", target = "UserID")
-    @Mapping(source = "correo", target = "email")
-    @Mapping(source = "contraseña", target = "password")
-    @Mapping(source = "fechaRegistro", target = "dateRecord")
+    @Mapping(source = "userID", target = "idUsuario")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "password", target = "contrasena")  // clave para llenar la columna
+    CredencialesEntity toEntity(CredencialesDto credencialesDto);
+
+    @Mapping(source = "idUsuario", target = "userID")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "contrasena", target = "password")
+    @Mapping(source = "dateRecord", target = "dateRecord")
     CredencialesDto toDto(CredencialesEntity entity);
 
     List<CredencialesDto> toDto(Iterable<CredencialesEntity> entities);
 
-    @Mapping(source = "UserID", target = "idUsuario")
-    @Mapping(source = "email", target = "correo")
-    @Mapping(source = "password", target = "contraseña")
+    @Mapping(source = "userID", target = "idUsuario")
+    @Mapping(source = "email", target = "email")
+    @Mapping(source = "password", target = "contrasena")
     void modificarEntityFromDto(ModCredencialesDto mod, @MappingTarget CredencialesEntity entity);
-
 }
+
