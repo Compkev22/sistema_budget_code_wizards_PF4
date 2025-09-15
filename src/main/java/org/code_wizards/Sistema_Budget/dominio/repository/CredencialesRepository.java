@@ -9,7 +9,7 @@ public interface CredencialesRepository {
 
     List<CredencialesDto> obtenerTodo();
     public CredencialesDto buscarPorCodigo(Long codigo);
-    CredencialesDto guardarCredenciales(CredencialesDto usuarioDto);
+    CredencialesDto guardarCredenciales(CredencialesDto credencialesDto);
     CredencialesDto modificarCredenciales(Long codigo, ModCredencialesDto modCredenciales);
     void eliminarCredenciales(Long codigo);
 }
