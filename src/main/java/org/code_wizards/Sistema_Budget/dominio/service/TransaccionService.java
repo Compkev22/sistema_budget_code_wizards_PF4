@@ -1,5 +1,7 @@
 package org.code_wizards.Sistema_Budget.dominio.service;
 
+import org.code_wizards.Sistema_Budget.dominio.dto.ModTransaccionDto;
+import org.code_wizards.Sistema_Budget.dominio.dto.TransaccionDto;
 import org.code_wizards.Sistema_Budget.dominio.repository.TransaccionRepository;
 import org.springframework.stereotype.Service;
 
