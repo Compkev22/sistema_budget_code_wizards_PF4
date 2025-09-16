@@ -36,12 +36,12 @@ public class PresupuestoEntityRepository implements PresupuestoRepository {
         // 1. Validar si ya existe un presupuesto con el mismo nombre
         // Se utiliza el metodo que ya definiste en tu CrudPresupuestoEntity
         PresupuestoEntity existente = this.crudPresupuestoEntity.findFirstByNombrePresupuesto(
-                presupuestoDto.nombrePresupuesto() // Asegúrate de que este sea el getter correcto
+                presupuestoDto.budgetName() // Asegúrate de que este sea el getter correcto
         );
 
         // 2. Si el presupuesto ya existe, lanzar una excepción
         if (existente != null) {
-            throw new PresupuestoYaExisteException("El presupuesto con el nombre '" + presupuestoDto.nombrePresupuesto() + "' ya existe.");
+            throw new PresupuestoYaExisteException("El presupuesto con el nombre '" + presupuestoDto.budgetName() + "' ya existe.");
         }
 
         // 3. Convertir el DTO de entrada a una entidad

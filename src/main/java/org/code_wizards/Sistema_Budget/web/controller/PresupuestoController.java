@@ -6,7 +6,6 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
-import org.code_wizards.Sistema_Budget.dominio.dto.ModPresupuestoDto;
 import org.code_wizards.Sistema_Budget.dominio.dto.PresupuestoDto;
 import org.code_wizards.Sistema_Budget.dominio.service.PresupuestoService;
 import org.springframework.http.HttpStatus;
@@ -22,9 +21,18 @@ public class PresupuestoController {
 
     private final PresupuestoService presupuestoService;
 
-    public PresupuestoController(PresupuestoService presupuestoService) {this.presupuestoService = presupuestoService;}
+    public PresupuestoController(PresupuestoService presupuestoService) {
+        this.presupuestoService = presupuestoService;
+    }
 
     @GetMapping
+    @Operation(
+            summary = "Obtener todos los presupuestos",
+            description = "Retorna una lista de todos los presupuestos existentes",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Lista de presupuestos obtenida exitosamente")
+            }
+    )
     public ResponseEntity<List<PresupuestoDto>> obtenerPresupuestos() {
         return ResponseEntity.ok(this.presupuestoService.listarPresupuestos());
     }
@@ -44,26 +52,47 @@ public class PresupuestoController {
         return ResponseEntity.ok(this.presupuestoService.buscarPorCodigo(idPresupuesto));
     }
 
-    // Agregar
     @PostMapping
+    @Operation(
+            summary = "Guardar un nuevo presupuesto",
+            description = "Crea y retorna un nuevo presupuesto",
+            responses = {
+                    @ApiResponse(responseCode = "201", description = "Presupuesto creado exitosamente"),
+                    @ApiResponse(responseCode = "400", description = "Datos de presupuesto inválidos", content = @Content)
+            }
+    )
     public ResponseEntity<PresupuestoDto> guardarPresupuesto(
             @RequestBody @Valid PresupuestoDto presupuestoDto
     ) {
-        return ResponseEntity.status(HttpStatus.CREATED).
-                body(this.presupuestoService.guardarPresupuesto(presupuestoDto));
+        return ResponseEntity.status(HttpStatus.CREATED).body(this.presupuestoService.guardarPresupuesto(presupuestoDto));
     }
 
-    // Modificar
     @PutMapping("/{idPresupuesto}")
+    @Operation(
+            summary = "Modificar un presupuesto existente",
+            description = "Actualiza la información de un presupuesto",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Presupuesto modificado exitosamente"),
+                    @ApiResponse(responseCode = "404", description = "Presupuesto a modificar no encontrado", content = @Content),
+                    @ApiResponse(responseCode = "400", description = "Datos de presupuesto inválidos", content = @Content)
+            }
+    )
     public ResponseEntity<PresupuestoDto> modificarPresupuesto(
-            @PathVariable Long idPresupuesto,
+            @Parameter(description = "Identificador del presupuesto a modificar", example = "3") @PathVariable Long idPresupuesto,
             @RequestBody @Valid PresupuestoDto modPresupuesto
     ) {
         return ResponseEntity.ok(this.presupuestoService.modificarPresupuesto(idPresupuesto, modPresupuesto));
     }
 
-    // Eliminar
     @DeleteMapping("/{idPresupuesto}")
+    @Operation(
+            summary = "Eliminar un presupuesto por su identificador",
+            description = "Elimina un presupuesto de forma permanente",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Presupuesto eliminado exitosamente"),
+                    @ApiResponse(responseCode = "404", description = "Presupuesto a eliminar no encontrado", content = @Content)
+            }
+    )
     public ResponseEntity<Void> eliminarPresupuesto(@PathVariable Long idPresupuesto) {
         this.presupuestoService.eliminarPresupuesto(idPresupuesto);
         return ResponseEntity.ok().build();

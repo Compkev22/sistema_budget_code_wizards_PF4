@@ -30,5 +30,5 @@ public class PresupuestoEntity {
     @Column(length = 50, nullable = false)
     private String estado;
     @Column(name = "monto_totalplanificado", precision = 10, scale = 2)
-    private BigDecimal monto_TotalPlanificado;
+    private BigDecimal monto_totalPlanificado;
 }
