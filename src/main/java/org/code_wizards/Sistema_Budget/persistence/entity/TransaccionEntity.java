@@ -14,7 +14,7 @@ public class TransaccionEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long IdTransaccion;
+    private Long idTransaccion;
 
     @Column(nullable = false)
     private Integer idCategoria;

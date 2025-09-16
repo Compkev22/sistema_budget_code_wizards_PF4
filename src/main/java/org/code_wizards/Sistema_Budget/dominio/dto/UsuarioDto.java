@@ -5,7 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 public record UsuarioDto (
     Long codigo,
     @NotBlank(message = "El nombre es obligatorio")
-    String nameUser,
+    String name,
     @NotBlank(message = "El apellido es obligatorio")
     String lastnameUser,
     @NotBlank(message = "El telefono es obligatorio")

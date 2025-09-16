@@ -20,7 +20,7 @@ public class RestExceptionHandlerTransaccion {
         return ResponseEntity.badRequest().body(error);
     }
 
-    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ExceptionHandler(TransaccionNoExisteException.class)
     public ResponseEntity<ErrorTransaccion> handleTransaccionNoExiste(TransaccionNoExisteException ex) {
         ErrorTransaccion error = new ErrorTransaccion("transaccion-no-existe", ex.getMessage());
         return ResponseEntity.badRequest().body(error);

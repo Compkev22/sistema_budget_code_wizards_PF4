@@ -10,14 +10,15 @@ import lombok.Data;
 public class UsuarioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long codigo;
-    @Column(length = 100, unique = true, nullable = false)
+    @Column(name = "id_usuario")
+    private Long id_Usuario;
+    @Column(length = 100, nullable = false)
     private String nombre;
-    @Column(length = 100, unique = true, nullable = false)
+    @Column(length = 100, nullable = false)
     private String apellido;
-    @Column(length = 15, unique = true, nullable = false)
+    @Column(length = 15, nullable = false)
     private String telefono;
-    @Column(length = 10, unique = true, nullable = false)
+    @Column(length = 10,  nullable = false)
     private String nit;
 
 }
