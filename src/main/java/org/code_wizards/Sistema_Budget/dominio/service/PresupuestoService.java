@@ -2,9 +2,11 @@ package org.code_wizards.Sistema_Budget.dominio.service;
 
 import org.code_wizards.Sistema_Budget.dominio.dto.PresupuestoDto;
 import org.code_wizards.Sistema_Budget.dominio.repository.PresupuestoRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class PresupuestoService {
     private final PresupuestoRepository presupuestoRepository;
 
