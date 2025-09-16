@@ -7,6 +7,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.Iterator;
 import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {StatusMapper.class})
@@ -20,7 +21,7 @@ public interface PresupuestoMapper {
     @Mapping(source = "monto_totalPlanificado", target = "totalPlannedAmount")
     PresupuestoDto toDto(PresupuestoEntity entity);
 
-    List<PresupuestoDto> toDto(List<PresupuestoEntity> entities);
+    List<PresupuestoDto> toDto(Iterable<PresupuestoEntity> entities);
 
     @InheritInverseConfiguration
     @Mapping(source = "status", target="estado", qualifiedByName = "generarEstado")

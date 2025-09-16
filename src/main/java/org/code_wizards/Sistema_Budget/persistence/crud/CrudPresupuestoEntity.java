@@ -1,8 +1,10 @@
 package org.code_wizards.Sistema_Budget.persistence.crud;
 
-import org.code_wizards.Sistema_Budget.dominio.dto.PresupuestoDto;
 import org.code_wizards.Sistema_Budget.persistence.entity.PresupuestoEntity;
+import org.springframework.data.repository.CrudRepository;
 
-public interface CrudPresupuestoEntity {
+import java.util.List;
+
+public interface CrudPresupuestoEntity extends CrudRepository<PresupuestoEntity, Long> {
     PresupuestoEntity findFirstByNombrePresupuesto(String nombrePresupuesto);
 }

@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface PresupuestoRepository {
     List<PresupuestoDto> obtenerTodo();
-    PresupuestoDto buscarPorCodigo(Long codigo);
+    PresupuestoDto buscarPorCodigo(Long idPresupuesto);
     PresupuestoDto guardarPresupuesto(PresupuestoDto presupuestoDto);
-    PresupuestoDto modificarPresupuesto(Long codigo, PresupuestoDto modPresupuesto );
-    void eliminarPresupuesto(Long codigo);
+    PresupuestoDto modificarPresupuesto(Long idPresupuesto, PresupuestoDto modPresupuesto );
+    void eliminarPresupuesto(Long idPresupuesto);
 }
