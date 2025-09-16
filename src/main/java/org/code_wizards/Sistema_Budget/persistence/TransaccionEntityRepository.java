@@ -2,6 +2,8 @@ package org.code_wizards.Sistema_Budget.persistence;
 
 import org.code_wizards.Sistema_Budget.dominio.dto.ModTransaccionDto;
 import org.code_wizards.Sistema_Budget.dominio.dto.TransaccionDto;
+import org.code_wizards.Sistema_Budget.dominio.exception.TransaccionNoExisteException;
+import org.code_wizards.Sistema_Budget.dominio.exception.TransaccionYaExisteException;
 import org.code_wizards.Sistema_Budget.dominio.repository.TransaccionRepository;
 import org.code_wizards.Sistema_Budget.persistence.crud.CrudTransaccionEntity;
 import org.code_wizards.Sistema_Budget.persistence.entity.TransaccionEntity;
@@ -37,8 +39,8 @@ public class TransaccionEntityRepository implements TransaccionRepository {
     @Override
     public TransaccionDto guardarTransaccion(TransaccionDto transaccionDto) {
         TransaccionEntity existente = this.crudTransaccionEntity.findFirstByIdTransaccionAndDescripcionTransaccion(
-                TransaccionDto.idCategory(),
-                TransaccionDto.descriptionTransaction()
+                transaccionDto.idCategory(),
+                transaccionDto.descriptionTransaction()
         );
         if (existente != null) {
             throw new TransaccionYaExisteException(transaccionDto.idCategory(), transaccionDto.descriptionTransaction());
@@ -47,7 +49,7 @@ public class TransaccionEntityRepository implements TransaccionRepository {
         TransaccionEntity entity = this.transaccionMapper.toEntity(transaccionDto);
         entity = this.crudTransaccionEntity.save(entity);
 
-        return this.transaccionMapper.toDto(entity)
+        return this.transaccionMapper.toDto(entity);
     }
 
     @Override
@@ -57,7 +59,7 @@ public class TransaccionEntityRepository implements TransaccionRepository {
         this.transaccionMapper.modificarEntityFromDto(modTransaccion, entity);
         entity = this.crudTransaccionEntity.save(entity);
 
-        return this.transaccionMapper.toDto(entity)
+        return this.transaccionMapper.toDto(entity);
     }
 
     @Override
