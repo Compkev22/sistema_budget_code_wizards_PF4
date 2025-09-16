@@ -1,6 +1,8 @@
 package org.code_wizards.Sistema_Budget.persistence;
 
 import org.code_wizards.Sistema_Budget.dominio.dto.PresupuestoDto;
+import org.code_wizards.Sistema_Budget.dominio.exception.PresupuestoNoExisteException;
+import org.code_wizards.Sistema_Budget.dominio.exception.PresupuestoYaExisteException;
 import org.code_wizards.Sistema_Budget.dominio.repository.PresupuestoRepository;
 import org.code_wizards.Sistema_Budget.persistence.crud.CrudPresupuestoEntity;
 import org.code_wizards.Sistema_Budget.persistence.entity.PresupuestoEntity;
