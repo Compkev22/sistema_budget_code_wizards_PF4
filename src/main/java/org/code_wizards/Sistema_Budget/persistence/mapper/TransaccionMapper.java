@@ -8,6 +8,8 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface TransaccionMapper {
 
@@ -17,6 +19,8 @@ public interface TransaccionMapper {
     @Mapping(source = "fechaTransaccion", target = "transactionDate")
     @Mapping(source = "tipoTransaccion", target = "typeTransaction")
     TransaccionDto toDto(TransaccionEntity entity);
+
+    List<TransaccionDto> toDto(Iterable<TransaccionEntity> entities);
 
     @InheritInverseConfiguration
     TransaccionEntity toEntity(TransaccionDto transaccionDto);
