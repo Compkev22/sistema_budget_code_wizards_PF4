@@ -10,7 +10,7 @@ import lombok.Data;
 public class UsuarioEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_usuario")
+    @Column(name = "id_Usuario")
     private Long id_Usuario;
     @Column(length = 100, nullable = false)
     private String nombre;
