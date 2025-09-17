@@ -29,6 +29,7 @@ public class UsuarioController {
         this.usuarioService = usuarioService;
        // this.aiServiceBudget = aiServiceBudget;
     }
+
     @GetMapping
     @Operation(
             summary = "Obtener todos los Usuarios existentes",
@@ -99,10 +100,10 @@ public class UsuarioController {
     @DeleteMapping("/{codigo}")
     @Operation(
             summary = "Eliminar Usuario existente segun su Identificador ",
-            description = "No retorna ningun mensaje, pero ejecuta la accion de Eliminacion segun su Identifiacador",
+            description = "No retorna ningun mensaje, pero ejecuta la accion de Eliminacion segun su Identificador",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Credenciales Eliminadas"),
-                    @ApiResponse(responseCode = "404", description = "Credenciales no Eliminadas", content = @Content)
+                    @ApiResponse(responseCode = "200", description = "Usuarios Eliminados"),
+                    @ApiResponse(responseCode = "404", description = "Usuarios no Eliminados", content = @Content)
             }
     )
 
