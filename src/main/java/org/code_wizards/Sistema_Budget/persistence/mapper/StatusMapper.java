@@ -9,9 +9,9 @@ public class StatusMapper {
         if (status == null) return null;
 
         return switch (status.toUpperCase()) {
-            case "ACTIVO" -> Status.ASSET;
-            case "INACTIVO" -> Status.IDLE;
-            case "COMPLETADO" -> Status.FILLED;
+            case "ACTIVO" -> Status.ACTIVO;
+            case "INACTIVO" -> Status.INACTIVO;
+            case "COMPLETADO" -> Status.COMPLETADO;
             default -> null;
         };
 
@@ -22,9 +22,9 @@ public class StatusMapper {
         if (status == null) return null;
 
         return switch (status) {
-            case ASSET -> "ACTIVO";
-            case IDLE -> "INACTIVO";
-            case FILLED -> "COMPLETADO";
+            case ACTIVO -> "ACTIVO";
+            case INACTIVO -> "INACTIVO";
+            case COMPLETADO -> "COMPLETADO";
             default -> null;
         };
     }

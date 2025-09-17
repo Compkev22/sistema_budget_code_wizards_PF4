@@ -11,10 +11,10 @@ VALUES
 (2, 'maria.gomez@example.com', 'contraseña456', '2023-02-01');
 
 -- Insertar en la tabla Presupuesto
-INSERT IGNORE INTO Presupuesto (id_Usuario, nombre_Presupuesto, periodo_Presupuesto, fecha_Inicio, fecha_Fin, monto_totalPlanificado)
+INSERT IGNORE INTO Presupuesto (id_Usuario, nombre_Presupuesto, periodo_Presupuesto, fecha_Inicio, fecha_Fin,estado, monto_totalPlanificado)
 VALUES
-(1, 'Presupuesto Enero', 'Enero 2023', '2023-01-01', '2023-01-31', 5000.00),
-(2, 'Presupuesto Febrero', 'Febrero 2023', '2023-02-01', '2023-02-28', 4000.00);
+(1, 'Presupuesto Enero', 'Enero 2023', '2023-01-01', '2023-01-31','COMPLETADO', 5000.00),
+(2, 'Presupuesto Febrero', 'Febrero 2023', '2023-02-01', '2023-02-28','COMPLETADO', 4000.00);
 
 -- Insertar en la tabla Categoria
 INSERT IGNORE INTO Categoria (id_Presupuesto, nombre_Categoria, tipo_Categoria, color_Identificacion, monto_Planificado, monto_Actual)
