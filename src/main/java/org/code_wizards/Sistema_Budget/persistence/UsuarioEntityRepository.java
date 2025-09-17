@@ -27,6 +27,7 @@ public class UsuarioEntityRepository implements UsuarioRepository {
 
     @Override
     public List<UsuarioDto> obtenerTodo() {
+
         return this.usuarioMapper.toDto(this.crudUsuarioEntity.findAll());
     }
 

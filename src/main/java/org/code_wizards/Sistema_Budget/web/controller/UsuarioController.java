@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/v1/usuarios/")
+@RequestMapping("/usuarios")
 @Tag(name = "Usuarios", description = "Operaciones Crud para Peliculas dentro del Sistema_Budget")
 public class UsuarioController {
     private final UsuarioService usuarioService;

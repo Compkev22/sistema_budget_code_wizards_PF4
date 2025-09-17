@@ -10,7 +10,7 @@ public record ModMetaAhorroDto (
         Double targetAmount,
         Double currentAmount,
         Date deadLine,
-        String status
+        statusAhorro status
 ){
 
 }

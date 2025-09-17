@@ -1,5 +1,8 @@
 package org.code_wizards.Sistema_Budget.web.exception;
-import org.code_wizards.Sistema_Budget.dominio.exception.*;
+
+import org.code_wizards.Sistema_Budget.dominio.exception.ErrorMetaAhorro;
+import org.code_wizards.Sistema_Budget.dominio.exception.MetaAhorroExisteException;
+import org.code_wizards.Sistema_Budget.dominio.exception.MetaAhorroNoExisteException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -11,13 +14,13 @@ import java.util.List;
 @RestControllerAdvice
 public class RestExceptionHandlerMetaAhorro {
 
-    @ExceptionHandler(CategoriaExisteException.class)
+    @ExceptionHandler(MetaAhorroExisteException.class)
     public ResponseEntity<ErrorMetaAhorro> handleMetaAhorroYaExiste(MetaAhorroExisteException ex) {
         ErrorMetaAhorro error = new ErrorMetaAhorro("metaahorro-ya-existe", ex.getMessage());
         return ResponseEntity.badRequest().body(error);
     }
 
-    @ExceptionHandler(CategoriaNoExisteException.class)
+    @ExceptionHandler(MetaAhorroNoExisteException.class)
     public ResponseEntity<ErrorMetaAhorro> handleMetaAhorroNoExiste(MetaAhorroNoExisteException ex) {
         ErrorMetaAhorro error = new ErrorMetaAhorro("metaahorro-no-existe", ex.getMessage());
         return ResponseEntity.badRequest().body(error);
@@ -39,4 +42,3 @@ public class RestExceptionHandlerMetaAhorro {
     }
 
 }
-
