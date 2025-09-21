@@ -13,6 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface UsuarioMapper {
 
+    @Mapping(source = "id_Usuario", target = "codigo")
     @Mapping(source = "nombre", target = "name")
     @Mapping(source = "apellido", target = "lastnameUser")
     @Mapping(source = "telefono", target = "telephone")
@@ -22,6 +23,7 @@ public interface UsuarioMapper {
     List<UsuarioDto> toDto(Iterable<UsuarioEntity> entities);
 
     @InheritInverseConfiguration
+    @Mapping(source = "codigo", target = "id_Usuario")
     UsuarioEntity toEntity(UsuarioDto dto);
 
     @Mapping(source = "name", target = "nombre")

@@ -26,7 +26,17 @@ public class IngresosController {
         this.ingresosService = ingresosService;
     }
 
+
     @GetMapping
+    @Operation(
+            summary = "Obtener todas los Ingresos existentes",
+            description = "Retorna los Ingresos que existan en la Base de Datos",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ingresos encontrados"),
+                    @ApiResponse(responseCode = "404", description = "Ingresos no encontrados", content = @Content)
+            }
+    )
+
     public ResponseEntity<List<IngresosDto>> obtenerIngresos() {
         return ResponseEntity.ok(this.ingresosService.obtenerTodo());
     }
@@ -36,7 +46,7 @@ public class IngresosController {
             summary = "Obtener los Ingresos por su identificador",
             description = "Retorna los Ingresos que coincida con el identificador enviado",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Ingresos no encontrados"),
+                    @ApiResponse(responseCode = "200", description = "Ingresos encontrados"),
                     @ApiResponse(responseCode = "404", description = "Ingresos no encontrados", content = @Content)
             }
     )
@@ -46,23 +56,51 @@ public class IngresosController {
         return ResponseEntity.ok(this.ingresosService.buscarPorCodigo(idIngreso));
     }
 
-    //Agregar
     @PostMapping
+    @Operation(
+            summary = "Agregar Ingresos Nuevos",
+            description = "Retorna y Envia los datos Nuevos a Agregar",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ingresos Agregados"),
+                    @ApiResponse(responseCode = "404", description = "Ingresos no Agregados", content = @Content)
+            }
+    )
+
+    //Agregar
     public ResponseEntity<IngresosDto> guardarIngresos
-    (@RequestBody @Valid IngresosDto ingresosDto) {
+            (@RequestBody @Valid IngresosDto ingresosDto) {
         return ResponseEntity.status(HttpStatus.CREATED).
                 body(this.ingresosService.guardarIngresos(ingresosDto));
     }
 
-    //Modificar
+
     @PutMapping("/{idIngreso}")
+    @Operation(
+            summary = "Actualizar Ingresos existentes segun su Identificador ",
+            description = "Retorna y envia los datos que seran sustituidos por los anteriores pertenecientes a ese Identificador",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ingresos Actualizados"),
+                    @ApiResponse(responseCode = "404", description = "Ingresos no Actualizados", content = @Content)
+            }
+    )
+
+    //Modificar
     public ResponseEntity<IngresosDto> modificarIngresos
-    (@PathVariable Long idIngreso, @RequestBody ModIngresosDto modIngresos) {
+            (@PathVariable Long idIngreso, @RequestBody ModIngresosDto modIngresos) {
         return ResponseEntity.ok(this.ingresosService.modificarIngresos(idIngreso, modIngresos));
     }
 
-    //Eliminar
     @DeleteMapping("/{idIngreso}")
+    @Operation(
+            summary = "Eliminar Ingresos existentes segun su Identificador ",
+            description = "No retorna ningun mensaje, pero ejecuta la accion de Eliminacion segun su Identificador",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Ingresos Eliminados"),
+                    @ApiResponse(responseCode = "404", description = "Ingresos no Eliminados", content = @Content)
+            }
+    )
+
+    //Eliminar
     public ResponseEntity<Void> eliminarCredenciales(@PathVariable Long idIngreso) {
         this.ingresosService.eliminarIngresos(idIngreso);
         return ResponseEntity.ok().build();

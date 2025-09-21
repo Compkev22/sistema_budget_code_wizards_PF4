@@ -27,16 +27,26 @@ public class CredencialesController {
     }
 
     @GetMapping
+    @Operation(
+            summary = "Obtener todas las Credenciales existentes",
+            description = "Retorna las credenciales que existan en la Base de Datos",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Credenciales encontradas"),
+                    @ApiResponse(responseCode = "404", description = "Credenciales no encontradas", content = @Content)
+            }
+    )
+
+
     public ResponseEntity<List<CredencialesDto>> obtenerCredenciales() {
         return ResponseEntity.ok(this.credencialesService.obtenerTodo());
     }
 
     @GetMapping("/{idCredencial}")
     @Operation(
-            summary = "Obtener las Credenciales por su identificador",
+            summary = "Obtener Credenciales por su identificador",
             description = "Retorna las credenciales que coincida con el identificador enviado",
             responses = {
-                    @ApiResponse(responseCode = "200", description = "Credenciales no encontradas"),
+                    @ApiResponse(responseCode = "200", description = "Credenciales encontradas"),
                     @ApiResponse(responseCode = "404", description = "Credenciales no encontradas", content = @Content)
             }
     )
@@ -46,23 +56,54 @@ public class CredencialesController {
         return ResponseEntity.ok(this.credencialesService.buscarPorCodigo(idCredencial));
     }
 
-    //Agregar
+
     @PostMapping
+    @Operation(
+            summary = "Agregar Credenciales Nuevas",
+            description = "Retorna y Envia los datos Nuevos a Agregar",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Credenciales Agregadas"),
+                    @ApiResponse(responseCode = "404", description = "Credenciales no Agregadas", content = @Content)
+            }
+    )
+
+    //Agregar
     public ResponseEntity<CredencialesDto> guardarCredenciales
-    (@RequestBody @Valid CredencialesDto credencialesDto) {
+            (@RequestBody @Valid CredencialesDto credencialesDto) {
         return ResponseEntity.status(HttpStatus.CREATED).
                 body(this.credencialesService.guardarCredenciales(credencialesDto));
     }
 
-    //Modificar
+
     @PutMapping("/{idCredencial}")
+    @Operation(
+            summary = "Actualizar Credenciales existentes segun su Identificador ",
+            description = "Retorna y envia los datos que seran sustituidos por los anteriores pertenecientes a ese Identificador",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Credenciales Actualizadas"),
+                    @ApiResponse(responseCode = "404", description = "Credenciales no Actualizadas", content = @Content)
+            }
+    )
+    //Modificar
+
     public ResponseEntity<CredencialesDto> modifcarCredenciales
-    (@PathVariable Long idCredencial, @RequestBody ModCredencialesDto modCredenciales) {
+            (@PathVariable Long idCredencial, @RequestBody ModCredencialesDto modCredenciales) {
         return ResponseEntity.ok(this.credencialesService.modificarCredenciales(idCredencial, modCredenciales));
     }
 
-    //Eliminar
+
     @DeleteMapping("/{idCredencial}")
+    @Operation(
+            summary = "Eliminar Credenciales existentes segun su Identificador ",
+            description = "No retorna ningun mensaje, pero ejecuta la accion de Eliminacion segun su Identificador",
+            responses = {
+                    @ApiResponse(responseCode = "200", description = "Credenciales Eliminadas"),
+                    @ApiResponse(responseCode = "404", description = "Credenciales no Eliminadas", content = @Content)
+            }
+    )
+
+    //Eliminar
+
     public ResponseEntity<Void> eliminarCredenciales(@PathVariable Long idCredencial) {
         this.credencialesService.eliminarCredenciales(idCredencial);
         return ResponseEntity.ok().build();
