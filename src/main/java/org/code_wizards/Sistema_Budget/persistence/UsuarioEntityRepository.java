@@ -3,6 +3,7 @@ package org.code_wizards.Sistema_Budget.persistence;
 
 import org.code_wizards.Sistema_Budget.dominio.dto.ModUsuarioDto;
 import org.code_wizards.Sistema_Budget.dominio.dto.UsuarioDto;
+import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioNoEliminableException;
 import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioNoExisteException;
 import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioYaExisteException;
 import org.code_wizards.Sistema_Budget.dominio.repository.UsuarioRepository;
@@ -10,6 +11,7 @@ import org.code_wizards.Sistema_Budget.persistence.crud.CrudUsuarioEntity;
 import org.code_wizards.Sistema_Budget.persistence.entity.UsuarioEntity;
 import org.code_wizards.Sistema_Budget.persistence.mapper.UsuarioMapper;
 
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -73,4 +75,6 @@ public class UsuarioEntityRepository implements UsuarioRepository {
             this.crudUsuarioEntity.deleteById(codigo);
         }
     }
+
+
 }

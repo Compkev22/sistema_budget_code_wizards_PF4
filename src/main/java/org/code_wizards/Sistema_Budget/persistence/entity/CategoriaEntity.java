@@ -12,8 +12,9 @@ public class CategoriaEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idCategoria;
 
-    @Column(nullable = false)
-    private Integer idPresupuesto;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idPresupuesto", nullable = false) // FK hacia PresupuestoEntity
+    private PresupuestoEntity presupuesto;
 
     @Column(length = 200, nullable = false)
     private String nombreCategoria;
@@ -30,4 +31,3 @@ public class CategoriaEntity {
     @Column(nullable = false)
     private Double montoActual;
 }
-

@@ -1,8 +1,7 @@
 package org.code_wizards.Sistema_Budget.web.exception;
 
-import org.code_wizards.Sistema_Budget.dominio.exception.ErrorPresupuestos;
-import org.code_wizards.Sistema_Budget.dominio.exception.PresupuestoNoExisteException;
-import org.code_wizards.Sistema_Budget.dominio.exception.PresupuestoYaExisteException;
+import org.code_wizards.Sistema_Budget.dominio.exception.*;
+import org.code_wizards.Sistema_Budget.dominio.exception.Error;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,8 +34,14 @@ public class RestExceptionHandlerPresupuesto {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorPresupuestos> handleUnknownException(Exception ex) {
-        ErrorPresupuestos error = new ErrorPresupuestos("-error-desconocido-", ex.getMessage());
+    public ResponseEntity<ErrorPresupuestos> handleException(Exception ex) {
+        ErrorPresupuestos error = new ErrorPresupuestos("- Error de Relacion con base de datos -", ex.getMessage());
         return ResponseEntity.internalServerError().body(error);
+    }
+
+    @ExceptionHandler(PresupuestoNoEliminableException.class)
+    public ResponseEntity<ErrorPresupuestos> handlePresupuestoNoEliminable(PresupuestoNoEliminableException ex) {
+        ErrorPresupuestos error = new ErrorPresupuestos(ex.getCodigoError(), ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
     }
 }

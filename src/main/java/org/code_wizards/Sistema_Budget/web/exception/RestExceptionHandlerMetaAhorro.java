@@ -36,8 +36,8 @@ public class RestExceptionHandlerMetaAhorro {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorMetaAhorro> handleUnknownException(Exception ex) {
-        ErrorMetaAhorro error = new ErrorMetaAhorro("-error desconocido-", ex.getMessage());
+    public ResponseEntity<ErrorMetaAhorro> handleException(Exception ex) {
+        ErrorMetaAhorro error = new ErrorMetaAhorro("- Error de Relacion con base de datos -", ex.getMessage());
         return ResponseEntity.internalServerError().body(error);
     }
 

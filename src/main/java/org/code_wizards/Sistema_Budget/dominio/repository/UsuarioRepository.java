@@ -12,4 +12,5 @@ public interface UsuarioRepository {
     UsuarioDto guardarUsuario(UsuarioDto usuarioDto);
     UsuarioDto modficarUsuario(Long codigo, ModUsuarioDto modUsuario);
     void eliminarUsuario(Long codigo);
+
 }

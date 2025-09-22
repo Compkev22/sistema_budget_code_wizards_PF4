@@ -15,11 +15,13 @@ public class IngresosEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idIngreso;
 
-    @Column(nullable = false)
-    private Integer idPresupuesto;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_Presupuesto", nullable = false)  // FK hacia PresupuestoEntity
+    private PresupuestoEntity presupuesto;
 
-    @Column(nullable = false)
-    private Integer idCategoria;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idCategoria", nullable = false)   // FK hacia CategoriaEntity
+    private CategoriaEntity categoria;
 
     @Column(length = 200, nullable = false)
     private String descripcionIngreso;

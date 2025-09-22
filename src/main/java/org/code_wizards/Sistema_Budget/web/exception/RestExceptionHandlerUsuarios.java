@@ -1,6 +1,7 @@
 package org.code_wizards.Sistema_Budget.web.exception;
 
 import org.code_wizards.Sistema_Budget.dominio.exception.Error;
+import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioNoEliminableException;
 import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioNoExisteException;
 import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioYaExisteException;
 import org.springframework.http.ResponseEntity;
@@ -36,8 +37,16 @@ public class RestExceptionHandlerUsuarios {
 
     //Manejador de error generico y desconocidos
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Error> handleException(Exception ex) {
-        Error error = new Error("-error desconocido-", ex.getMessage());
+    public ResponseEntity<Error> handleErrorGenerico(Exception ex) {
+        Error error = new Error("- Error de Relacion con base de datos -", ex.getMessage());
         return ResponseEntity.internalServerError().body(error);
     }
+
+    @ExceptionHandler(UsuarioNoEliminableException.class)
+    public ResponseEntity<Error> handleUsuarioNoEliminable(UsuarioNoEliminableException ex) {
+        Error error = new Error(ex.getCodigoError(), ex.getMessage());
+        return ResponseEntity.badRequest().body(error);
+    }
+
+
 }

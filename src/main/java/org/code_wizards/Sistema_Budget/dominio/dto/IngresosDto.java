@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public record IngresosDto(
         Long idIngreso,
         @NotNull(message = "El id del presupuesto es obligatorio")
-        Integer idBudget,
+        Long idBudget,
         @NotNull(message = "El id de la categoria es obligatorio")
         Integer idCategory,
         @NotBlank(message = "La descripcion del ingreso es obligatoria")

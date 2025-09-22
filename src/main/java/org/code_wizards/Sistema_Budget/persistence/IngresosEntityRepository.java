@@ -49,7 +49,7 @@ public class IngresosEntityRepository implements IngresosRepository {
        //  }
 
         // Validar si ya existe un ingreso con la misma descripción y presupuesto
-        IngresosEntity existente = this.crudIngresosEntity.findFirstByIdPresupuestoAndDescripcionIngreso(
+        IngresosEntity existente = this.crudIngresosEntity.findFirstByPresupuestoIdPresupuestoAndDescripcionIngreso(
                 ingresosDto.idBudget(),
                 ingresosDto.descriptionEntry()
         );

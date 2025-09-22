@@ -33,8 +33,8 @@ public class RestExceptionHandlerCategoria {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorCategoria> handleUnknownException(Exception ex) {
-        ErrorCategoria error = new ErrorCategoria("-error desconocido-", ex.getMessage());
+    public ResponseEntity<ErrorCategoria> handleException(Exception ex) {
+        ErrorCategoria error = new ErrorCategoria("- Error de Relacion con base de datos -", ex.getMessage());
         return ResponseEntity.internalServerError().body(error);
     }
 

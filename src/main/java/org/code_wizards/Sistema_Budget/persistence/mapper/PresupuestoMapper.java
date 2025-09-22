@@ -12,7 +12,7 @@ import java.util.List;
 
 @Mapper(componentModel = "spring", uses = {StatusMapper.class})
 public interface PresupuestoMapper {
-    @Mapping(source = "idUsuario", target="idUser")
+    @Mapping(source = "usuario.id_Usuario", target="idUser")
     @Mapping(source="nombrePresupuesto", target="budgetName")
     @Mapping(source="periodoPresupuesto", target="budgetPeriod")
     @Mapping(source="fechaInicio", target="startDate")

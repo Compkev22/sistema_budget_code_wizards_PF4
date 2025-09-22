@@ -13,8 +13,9 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface IngresosMapper {
 
-    @Mapping(source = "idPresupuesto", target = "idBudget")
-    @Mapping(source = "idCategoria", target = "idCategory")
+    // Entity → DTO
+    @Mapping(source = "presupuesto.idPresupuesto", target = "idBudget")
+    @Mapping(source = "categoria.idCategoria", target = "idCategory")
     @Mapping(source = "descripcionIngreso", target = "descriptionEntry")
     @Mapping(source = "montoIngreso", target = "incomeAmount")
     @Mapping(source = "fechaIngreso", target = "entryDate")
@@ -22,11 +23,17 @@ public interface IngresosMapper {
 
     List<IngresosDto> toDto(Iterable<IngresosEntity> entities);
 
-    @InheritInverseConfiguration
+    // DTO → Entity
+    @Mapping(source = "idBudget", target = "presupuesto.idPresupuesto")
+    @Mapping(source = "idCategory", target = "categoria.idCategoria")
+    @Mapping(source = "descriptionEntry", target = "descripcionIngreso")
+    @Mapping(source = "incomeAmount", target = "montoIngreso")
+    @Mapping(source = "entryDate", target = "fechaIngreso")
     IngresosEntity toEntity(IngresosDto ingresosDto);
 
-    @Mapping(source = "idBudget", target = "idPresupuesto")
-    @Mapping(source = "idCategory", target = "idCategoria")
+    // DTO de modificación → Entity existente
+    @Mapping(source = "idBudget", target = "presupuesto.idPresupuesto")
+    @Mapping(source = "idCategory", target = "categoria.idCategoria")
     @Mapping(source = "descriptionEntry", target = "descripcionIngreso")
     @Mapping(source = "incomeAmount", target = "montoIngreso")
     void modificarEntityFromDto(ModIngresosDto mod, @MappingTarget IngresosEntity entity);

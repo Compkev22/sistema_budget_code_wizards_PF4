@@ -2,7 +2,9 @@ package org.code_wizards.Sistema_Budget.dominio.service;
 
 import org.code_wizards.Sistema_Budget.dominio.dto.CategoriaDto;
 import org.code_wizards.Sistema_Budget.dominio.dto.ModCategoriaDto;
+import org.code_wizards.Sistema_Budget.dominio.exception.*;
 import org.code_wizards.Sistema_Budget.dominio.repository.CategoriaRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -36,7 +38,22 @@ public class CategoriaService {
     }
 
     public void eliminarCategoria(Long codigo) {
+        try {
+            this.categoriaRepository.eliminarCategoria(codigo);
+        } catch (DataIntegrityViolationException ex) {
+            String causa = ex.getMostSpecificCause().getMessage().toLowerCase();
+            System.out.println("Mensaje exacto de la excepción: " + causa); // para depuración
 
-        this.categoriaRepository.eliminarCategoria(codigo);
+            if (causa.contains("transaccion")) {
+                throw new CategoriaConTransaccionException(codigo);
+            } else if (causa.contains("ingreso")) {
+                throw new CategoriaConIngresosException(codigo);
+            } else {
+                throw new CategoriaNoEliminableException(
+                        "Error de relación en la base de datos: no se puede eliminar esta categoria porque tiene datos asociados.",
+                        "categoria-no-eliminable"
+                );
+            }
+        }
     }
 }
