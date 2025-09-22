@@ -36,6 +36,12 @@ VALUES
 (1, 1, 'Ingreso por venta de productos', 2000.00, '2023-01-15'),
 (2, 3, 'Ingreso por freelance', 1000.00, '2023-02-10');
 
+-- Insertar en la tabla GASTO
+INSERT INTO Gasto (id_Presupuesto, id_Categoria, descripcion_Gasto, categoria_Gasto, monto_Gasto, fecha_Gasto)
+VALUES
+(1, 1, 'Compra de víveres para el hogar', 'Alimentos', 150.75, '2025-09-20'),
+(1, 2, 'Factura de electricidad de septiembre', 'Servicios', 85.00, '2025-09-21');
+
 -- Insertar en la tabla MetaAhorro
 INSERT IGNORE INTO Meta_ahorro (id_Presupuesto, nombre_Meta, monto_Objetivo, monto_Actual, fecha_Limite)
 VALUES
