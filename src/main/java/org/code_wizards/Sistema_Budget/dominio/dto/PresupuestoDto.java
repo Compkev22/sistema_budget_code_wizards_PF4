@@ -7,7 +7,7 @@ import org.code_wizards.Sistema_Budget.dominio.Status;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record PresupuestoDto (
+public record PresupuestoDto(
         Long idPresupuesto,
         @NotNull(message = "El ID del usuario no puede estar vacío")
         Long idUser,
@@ -18,5 +18,5 @@ public record PresupuestoDto (
         LocalDateTime endDate,
         Status status,
         BigDecimal totalPlannedAmount
-
-){}
+) {
+}
