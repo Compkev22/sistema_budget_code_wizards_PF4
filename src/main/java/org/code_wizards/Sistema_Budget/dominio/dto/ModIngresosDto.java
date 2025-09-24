@@ -10,6 +10,5 @@ public record ModIngresosDto(
         Integer idBudget,
         Integer idCategory,
         String descriptionEntry,
-        Double incomeAmount,
-        Date entryDate
+        Double incomeAmount
 ) {}
