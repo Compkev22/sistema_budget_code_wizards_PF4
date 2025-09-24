@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 public record CredencialesDto(
         Long idCredencial,
         @Min(value = 0, message = "El codigo de usuario es Obligatorio")
-        Integer userID,
+        Long userID,
         @NotBlank(message = "La dirección de Correo Electronico es obligatorio")
         String email,
         @NotBlank(message = "La contraseña es Obligatoria")

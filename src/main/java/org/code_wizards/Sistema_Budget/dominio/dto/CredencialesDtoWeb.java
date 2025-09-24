@@ -2,16 +2,16 @@ package org.code_wizards.Sistema_Budget.dominio.dto;
 
 import java.time.LocalDateTime;
 
-public class CredencialesJsfDto {
+public class CredencialesDtoWeb {
     private Long idCredencial;
     private Long userID;
     private String email;
     private String password;
     private LocalDateTime dateRecord;
 
-    public CredencialesJsfDto() {}
+    public CredencialesDtoWeb() {}
 
-    public CredencialesJsfDto(Long idCredencial, Long userID, String email, String password, LocalDateTime dateRecord) {
+    public CredencialesDtoWeb(Long idCredencial, Long userID, String email, String password, LocalDateTime dateRecord) {
         this.idCredencial = idCredencial;
         this.userID = userID;
         this.email = email;

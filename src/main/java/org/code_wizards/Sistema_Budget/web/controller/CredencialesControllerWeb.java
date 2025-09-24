@@ -8,7 +8,7 @@ import jakarta.inject.Named;
 import org.code_wizards.Sistema_Budget.dominio.dto.CredencialesDto;
 import org.code_wizards.Sistema_Budget.dominio.dto.ModCredencialesDto;
 import org.code_wizards.Sistema_Budget.dominio.service.CredencialesService;
-import org.code_wizards.Sistema_Budget.dominio.dto.CredencialesJsfDto;
+import org.code_wizards.Sistema_Budget.dominio.dto.CredencialesDtoWeb;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.Serializable;
@@ -16,14 +16,14 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-@Named
+@Named("credencialesControllerWeb")
 @ViewScoped
-public class CredencialesControllerJSF implements Serializable {
+public class CredencialesControllerWeb implements Serializable {
 
     @Autowired
     private CredencialesService credencialesService;
 
-    private List<CredencialesJsfDto> listaCredenciales;
+    private List<CredencialesDtoWeb> listaCredenciales;
 
     // Campos para creación/edición
     private Long idCredencial;
@@ -42,7 +42,7 @@ public class CredencialesControllerJSF implements Serializable {
     public void cargarCredenciales() {
         List<CredencialesDto> creds = credencialesService.obtenerTodo();
         this.listaCredenciales = creds.stream()
-                .map(c -> new CredencialesJsfDto(
+                .map(c -> new CredencialesDtoWeb(
                         c.idCredencial(),
                         c.userID(),
                         c.email(),
@@ -53,13 +53,13 @@ public class CredencialesControllerJSF implements Serializable {
     }
 
     // Preparar formulario para nuevo registro
-    public void prepararNuevo() {
+    public void prepararNuevaCredencial() {
         limpiarFormulario();
         this.modoEdicion = false;
     }
 
     // Preparar formulario para edición
-    public void prepararEdicion(CredencialesJsfDto cred) {
+    public void prepararEdicionCredencial(CredencialesDtoWeb cred) {
         this.modoEdicion = true;
         this.idCredencial = cred.getIdCredencial();
         this.userID = cred.getUserID();
@@ -68,11 +68,10 @@ public class CredencialesControllerJSF implements Serializable {
         this.dateRecord = cred.getDateRecord();
     }
 
-    // Guardar o actualizar
-    public void guardar() {
+    // Guardar o actualizar credencial
+    public void guardarCredencial() {
         try {
             if (modoEdicion) {
-                // Actualizar
                 ModCredencialesDto mod = new ModCredencialesDto(
                         userID != null ? userID.intValue() : null,
                         email,
@@ -81,7 +80,6 @@ public class CredencialesControllerJSF implements Serializable {
                 credencialesService.modificarCredenciales(idCredencial, mod);
                 mostrarMensaje("Credencial actualizada", email, FacesMessage.SEVERITY_INFO);
             } else {
-                // Nuevo registro
                 CredencialesDto nuevo = new CredencialesDto(
                         null,
                         userID,
@@ -99,12 +97,15 @@ public class CredencialesControllerJSF implements Serializable {
         }
     }
 
-    // Eliminar registro
-    public void eliminar(CredencialesJsfDto cred) {
+    // Eliminar credencial
+    public void eliminarCredencial() {
         try {
-            credencialesService.eliminarCredenciales(cred.getIdCredencial());
-            cargarCredenciales();
-            mostrarMensaje("Credencial eliminada", cred.getEmail(), FacesMessage.SEVERITY_INFO);
+            if (idCredencial != null) {
+                credencialesService.eliminarCredenciales(idCredencial);
+                cargarCredenciales();
+                mostrarMensaje("Credencial eliminada", "ID: " + idCredencial, FacesMessage.SEVERITY_INFO);
+                idCredencial = null;
+            }
         } catch (Exception e) {
             mostrarMensaje("Error al eliminar credencial", e.getMessage(), FacesMessage.SEVERITY_ERROR);
         }
@@ -127,7 +128,7 @@ public class CredencialesControllerJSF implements Serializable {
     // ========================
     // Getters y Setters
     // ========================
-    public List<CredencialesJsfDto> getListaCredenciales() { return listaCredenciales; }
+    public List<CredencialesDtoWeb> getListaCredenciales() { return listaCredenciales; }
     public boolean isModoEdicion() { return modoEdicion; }
 
     public Long getIdCredencial() { return idCredencial; }

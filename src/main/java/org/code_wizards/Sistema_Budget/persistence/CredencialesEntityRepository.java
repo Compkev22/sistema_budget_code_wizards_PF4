@@ -40,7 +40,7 @@ public class CredencialesEntityRepository implements CredencialesRepository {
         // Validar si ya existe
         CredencialesEntity existente = this.crudCredencialesEntity.findFirstByEmail(credencialesDto.email());
         if (existente != null) {
-            throw new CredencialesYaExisteException(credencialesDto.userID(), credencialesDto.email());
+            throw new CredencialesYaExisteException(Math.toIntExact(credencialesDto.userID()), credencialesDto.email());
         }
 
         // Mapear y guardar en base de datos
