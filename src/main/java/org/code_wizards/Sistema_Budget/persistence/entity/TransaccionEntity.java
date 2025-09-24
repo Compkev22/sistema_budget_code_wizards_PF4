@@ -26,8 +26,7 @@ public class TransaccionEntity {
     @Column(nullable = false)
     private Double montoTransaccion;
 
-    @CreationTimestamp
-    @Column(name = "fechaTransaccion", updatable = false)
+    @Column(name = "fechaTransaccion")
     private LocalDateTime fechaTransaccion;
 
     @Column(length = 50, nullable = false)

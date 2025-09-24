@@ -65,6 +65,7 @@ public class TransaccionControllerWeb implements Serializable {
             logger.info("Transacción a guardar: " + this.transaccionSeleccionada);
 
             if (this.transaccionSeleccionada.getIdTransaccion() == null) {
+                // Lógica para agregar una nueva transacción (esto está correcto)
                 TransaccionDto nuevaTransaccion = new TransaccionDto(
                         null,
                         this.transaccionSeleccionada.getIdCategory(),
@@ -73,16 +74,17 @@ public class TransaccionControllerWeb implements Serializable {
                         this.transaccionSeleccionada.getTransactionDate(),
                         this.transaccionSeleccionada.getTypeTransaction()
                 );
-
                 this.transaccionService.guardarTransaccion(nuevaTransaccion);
                 mostrarMensaje(FacesMessage.SEVERITY_INFO, "Éxito", "Transacción agregada exitosamente");
 
             } else {
+                // Lógica para modificar una transacción (aquí está la corrección)
                 ModTransaccionDto modTransaccion = new ModTransaccionDto(
                         this.transaccionSeleccionada.getIdCategory(),
                         this.transaccionSeleccionada.getDescriptionTransaction(),
                         this.transaccionSeleccionada.getTransactionAmount(),
-                        new Date(), 
+                        // CORRECCIÓN: Usar la fecha de la transacción seleccionada, no la fecha actual
+                        this.transaccionSeleccionada.getTransactionDate(),
                         this.transaccionSeleccionada.getTypeTransaction()
                 );
 

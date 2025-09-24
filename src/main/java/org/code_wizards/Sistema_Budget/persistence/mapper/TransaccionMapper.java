@@ -28,5 +28,6 @@ public interface TransaccionMapper {
     @Mapping(source = "idCategory", target = "categoria.idCategoria")
     @Mapping(source = "descriptionTransaction", target = "descripcionTransaccion")
     @Mapping(source = "transactionAmount", target = "montoTransaccion")
+    @Mapping(source = "transactionDate", target = "fechaTransaccion")
     void modificarEntityFromDto(ModTransaccionDto mod, @MappingTarget TransaccionEntity entity);
 }
