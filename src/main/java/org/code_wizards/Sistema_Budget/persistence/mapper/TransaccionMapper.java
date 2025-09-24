@@ -13,7 +13,7 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface TransaccionMapper {
 
-    @Mapping(source = "idCategoria", target = "idCategory")
+    @Mapping(source = "categoria.idCategoria", target = "idCategory")
     @Mapping(source = "descripcionTransaccion", target = "descriptionTransaction")
     @Mapping(source = "montoTransaccion", target = "transactionAmount")
     @Mapping(source = "fechaTransaccion", target = "transactionDate")
@@ -25,7 +25,7 @@ public interface TransaccionMapper {
     @InheritInverseConfiguration
     TransaccionEntity toEntity(TransaccionDto transaccionDto);
 
-    @Mapping(source = "idCategory", target = "idCategoria")
+    @Mapping(source = "idCategory", target = "categoria.idCategoria")
     @Mapping(source = "descriptionTransaction", target = "descripcionTransaccion")
     @Mapping(source = "transactionAmount", target = "montoTransaccion")
     void modificarEntityFromDto(ModTransaccionDto mod, @MappingTarget TransaccionEntity entity);

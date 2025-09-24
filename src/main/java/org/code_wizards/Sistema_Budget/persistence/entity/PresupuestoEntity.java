@@ -12,23 +12,32 @@ import java.time.LocalDateTime;
 @Table(name = "Presupuesto")
 @Data
 public class PresupuestoEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPresupuesto;
-    @Column(nullable = false)
-    private Long idUsuario;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_Usuario", nullable = false)  // FK a UsuarioEntity
+    private UsuarioEntity usuario;
+
     @Column(length = 100, nullable = false)
     private String nombrePresupuesto;
+
     @Column(length = 100, nullable = false)
     private String periodoPresupuesto;
+
     @CreationTimestamp
-    @Column(name= "fechaInicio", nullable = false)
+    @Column(name= "fechaInicio", nullable = false, updatable = false)
     private LocalDateTime fechaInicio;
+
     @CreationTimestamp
-    @Column(name= "fechaFin", nullable = false)
+    @Column(name= "fechaFin", nullable = false, updatable = false)
     private LocalDateTime fechaFin;
+
     @Column(length = 50, nullable = false)
     private String estado;
+
     @Column(name = "monto_totalplanificado", precision = 10, scale = 2)
     private BigDecimal monto_totalPlanificado;
 }

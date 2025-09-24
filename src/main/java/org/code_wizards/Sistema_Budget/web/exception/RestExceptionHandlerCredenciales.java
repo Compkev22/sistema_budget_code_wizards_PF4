@@ -37,7 +37,7 @@ public class RestExceptionHandlerCredenciales {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorCredenciales> handleException(Exception ex) {
-        ErrorCredenciales error = new ErrorCredenciales("-error desconocido-", ex.getMessage());
+        ErrorCredenciales error = new ErrorCredenciales("- Error de Relacion con base de datos -", ex.getMessage());
         return ResponseEntity.internalServerError().body(error);
     }
 }

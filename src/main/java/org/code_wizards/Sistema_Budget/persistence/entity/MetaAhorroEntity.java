@@ -4,7 +4,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import org.code_wizards.Sistema_Budget.dominio.statusAhorro;
 
-import java.sql.Date;
+import java.math.BigDecimal;
+import java.time.LocalDate;
 
 @Entity
 @Table(name= "MetaAhorro")
@@ -15,22 +16,23 @@ public class MetaAhorroEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idAhorro;
 
-    @Column(nullable = false)
-    private Integer idPresupuesto;
+    @ManyToOne
+    @JoinColumn(name = "idPresupuesto", nullable = false)
+    private PresupuestoEntity presupuesto;
 
     @Column(length = 200, nullable = false)
     private String nombreMeta;
 
-    @Column(length = 200, nullable = false)
-    private Double montoObjetivo;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal montoObjetivo;
 
-    @Column(length = 200, nullable = false)
-    private Double montoActual;
-
-    @Column(nullable = false)
-    private Date fechaLimite;
+    @Column(nullable = false, precision = 12, scale = 2)
+    private BigDecimal montoActual;
 
     @Column(nullable = false)
+    private LocalDate fechaLimite;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false, length = 20)
     private statusAhorro estado;
 }
-

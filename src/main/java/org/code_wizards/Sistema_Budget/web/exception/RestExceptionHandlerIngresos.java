@@ -33,8 +33,8 @@ public class RestExceptionHandlerIngresos {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorIngresos> handleUnknownException(Exception ex) {
-        ErrorIngresos error = new ErrorIngresos("-error desconocido-", ex.getMessage());
+    public ResponseEntity<ErrorIngresos> handleException(Exception ex) {
+        ErrorIngresos error = new ErrorIngresos("- Error de Relacion con base de datos -", ex.getMessage());
         return ResponseEntity.internalServerError().body(error);
     }
 

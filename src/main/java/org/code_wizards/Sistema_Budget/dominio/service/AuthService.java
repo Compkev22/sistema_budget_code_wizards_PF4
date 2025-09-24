@@ -6,10 +6,13 @@ import org.code_wizards.Sistema_Budget.dominio.exception.CredencialesYaExisteExc
 import org.code_wizards.Sistema_Budget.dominio.repository.UsuarioRepository;
 import org.code_wizards.Sistema_Budget.dominio.repository.CredencialesRepository;
 import org.code_wizards.Sistema_Budget.persistence.crud.CrudCredencialesEntity;
+import org.code_wizards.Sistema_Budget.persistence.crud.CrudUsuarioEntity;
 import org.code_wizards.Sistema_Budget.persistence.entity.CredencialesEntity;
+import org.code_wizards.Sistema_Budget.persistence.entity.UsuarioEntity;
 import org.springframework.stereotype.Service;
 import java.time.LocalDateTime;
-
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 @Service
 public class AuthService {
@@ -17,24 +20,26 @@ public class AuthService {
     private final UsuarioRepository usuarioRepository;
     private final CredencialesRepository credencialesRepository;
     private final CrudCredencialesEntity crudCredencialesEntity;
+    private final CrudUsuarioEntity crudUsuarioEntity;
 
     public AuthService(UsuarioRepository usuarioRepository,
                        CredencialesRepository credencialesRepository,
-                       CrudCredencialesEntity crudCredencialesEntity) {
+                       CrudCredencialesEntity crudCredencialesEntity,
+                       CrudUsuarioEntity crudUsuarioEntity) {
         this.usuarioRepository = usuarioRepository;
         this.credencialesRepository = credencialesRepository;
         this.crudCredencialesEntity = crudCredencialesEntity;
+        this.crudUsuarioEntity = crudUsuarioEntity;
     }
 
-    //Metodo para verficar
+    // Método para registrar usuario
     public AuthResponse register(RegisterRequest request) {
         try {
-            // Verificar si el email ya existe
-            if (crudCredencialesEntity.findFirstByEmail(request.email()) != null) {
-                throw new CredencialesYaExisteException(request.email());
+            CredencialesEntity credencialesExistentes = crudCredencialesEntity.findFirstByEmail(request.email());
+            if (credencialesExistentes != null) {
+                throw new CredencialesYaExisteException(credencialesExistentes.getUsuario().getId_Usuario().intValue(), request.email());
             }
 
-            // Crear nuevo usuario usando tu DTO existente
             UsuarioDto nuevoUsuario = new UsuarioDto(
                     null, // el ID se genera automáticamente
                     request.name(),
@@ -43,20 +48,20 @@ public class AuthService {
                     request.nitUser()
             );
 
-            // Guardar usuario usando tu servicio existente
             UsuarioDto usuarioGuardado = usuarioRepository.guardarUsuario(nuevoUsuario);
 
-            // Crear credenciales usando tu DTO existente
-            CredencialesDto nuevasCredenciales = new CredencialesDto(
-                    null, // el ID se genera automáticamente
-                    usuarioGuardado.codigo().intValue(), // convertir Long a Integer
-                    request.email(),
-                    request.password(), // Sin encriptar
-                    LocalDateTime.now()
-            );
+            UsuarioEntity usuarioEntity = crudUsuarioEntity.findById(usuarioGuardado.codigo()).orElse(null);
+            if (usuarioEntity == null) {
+                throw new AuthException("Error al recuperar usuario guardado");
+            }
 
-            // Guardar credenciales usando tu servicio existente
-            credencialesRepository.guardarCredenciales(nuevasCredenciales);
+            CredencialesEntity nuevasCredenciales = new CredencialesEntity();
+            nuevasCredenciales.setUsuario(usuarioEntity); // Relación con UsuarioEntity
+            nuevasCredenciales.setEmail(request.email());
+            nuevasCredenciales.setContrasena(request.password()); // Sin encriptar
+            nuevasCredenciales.setDateRecord(LocalDateTime.now());
+
+            crudCredencialesEntity.save(nuevasCredenciales);
 
             return AuthResponse.success(
                     "Usuario registrado exitosamente",
@@ -65,38 +70,34 @@ public class AuthService {
             );
 
         } catch (CredencialesYaExisteException e) {
-            throw e; // Re-lanzar para que sea manejada por el handler existente
+            throw e; //
         } catch (Exception e) {
             throw new AuthException("Error al registrar usuario: " + e.getMessage());
         }
     }
 
-    //Metodo para el login
     public AuthResponse login(AuthRequest request) {
         try {
-            // Buscar credenciales por email usando tu CRUD existente
             CredencialesEntity credenciales = crudCredencialesEntity.findFirstByEmail(request.email());
 
             if (credenciales == null) {
                 throw new AuthException("Email no encontrado");
             }
 
-            // Verificar contraseña (sin encriptar)
             if (!credenciales.getContrasena().equals(request.password())) {
                 throw new AuthException("Contraseña incorrecta");
             }
 
-            // Buscar datos del usuario usando tu servicio existente
-            UsuarioDto usuario = usuarioRepository.buscarPorCodigo(credenciales.getIdUsuario().longValue());
+            UsuarioEntity usuarioEntity = credenciales.getUsuario();
 
-            if (usuario == null) {
+            if (usuarioEntity == null) {
                 throw new AuthException("Usuario no encontrado");
             }
 
             return AuthResponse.success(
                     "Login exitoso",
-                    usuario.codigo(),
-                    usuario.name()
+                    usuarioEntity.getId_Usuario(),
+                    usuarioEntity.getNombre()
             );
 
         } catch (Exception e) {

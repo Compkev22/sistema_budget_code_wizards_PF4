@@ -6,5 +6,7 @@ import org.springframework.data.repository.CrudRepository;
 public interface CrudIngresosEntity extends CrudRepository<IngresosEntity, Long> {
 
     // Busca un ingreso por idPresupuesto y descripcionIngreso
-    IngresosEntity findFirstByIdPresupuestoAndDescripcionIngreso(Integer idPresupuesto, String descripcionIngreso);
+    IngresosEntity findFirstByPresupuestoIdPresupuestoAndDescripcionIngreso(Long idPresupuesto, String descripcion);
+
+
 }

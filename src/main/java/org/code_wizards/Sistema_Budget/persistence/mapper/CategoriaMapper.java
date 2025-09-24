@@ -13,7 +13,7 @@ import java.util.List;
 public interface CategoriaMapper {
 
     @Mapping(source = "categoryId", target = "idCategoria")
-    @Mapping(source = "budgetId", target = "idPresupuesto")
+    @Mapping(source = "budgetId", target = "presupuesto.idPresupuesto")
     @Mapping(source = "categoryName", target = "nombreCategoria")
     @Mapping(source = "categoryType", target = "tipoCategoria")
     @Mapping(source = "identificationColor", target = "colorIdentificacion")
@@ -22,7 +22,7 @@ public interface CategoriaMapper {
     CategoriaEntity toEntity(CategoriaDto dto);
 
     @Mapping(source = "idCategoria", target = "categoryId")
-    @Mapping(source = "idPresupuesto", target = "budgetId")
+    @Mapping(source = "presupuesto.idPresupuesto", target = "budgetId")
     @Mapping(source = "nombreCategoria", target = "categoryName")
     @Mapping(source = "tipoCategoria", target = "categoryType")
     @Mapping(source = "colorIdentificacion", target = "identificationColor")
@@ -32,7 +32,7 @@ public interface CategoriaMapper {
 
     List<CategoriaDto> toDto(Iterable<CategoriaEntity> entities);
 
-    @Mapping(source = "budgetId", target = "idPresupuesto")
+    @Mapping(source = "budgetId", target = "presupuesto.idPresupuesto")
     @Mapping(source = "categoryName", target = "nombreCategoria")
     @Mapping(source = "categoryType", target = "tipoCategoria")
     @Mapping(source = "identificationColor", target = "colorIdentificacion")

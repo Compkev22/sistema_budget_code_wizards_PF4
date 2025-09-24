@@ -17,8 +17,9 @@ public class CredencialesEntity {
     @Column(name = "id_Credencial")
     private Long idCredencial;
 
-    @Column(name = "idUsuario", nullable = false)
-    private Integer idUsuario;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_Usuario", nullable = false)  // FK hacia UsuarioEntity
+    private UsuarioEntity usuario;
 
     @Column(name = "email", length = 100, unique = true, nullable = false)
     private String email;
@@ -26,7 +27,7 @@ public class CredencialesEntity {
     @Column(name = "contraseña", length = 100, nullable = false)
     private String contrasena;
 
-    @Column(name = "fecha_Registro",updatable = false)
+    @Column(name = "fecha_Registro", updatable = false)
     @CreationTimestamp
     private LocalDateTime dateRecord;
 }

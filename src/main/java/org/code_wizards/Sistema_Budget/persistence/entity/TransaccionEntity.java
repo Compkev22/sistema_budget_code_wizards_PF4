@@ -16,8 +16,9 @@ public class TransaccionEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idTransaccion;
 
-    @Column(nullable = false)
-    private Integer idCategoria;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "idCategoria", nullable = false) // FK hacia CategoriaEntity
+    private CategoriaEntity categoria;
 
     @Column(length = 200, nullable = false)
     private String descripcionTransaccion;
@@ -31,5 +32,4 @@ public class TransaccionEntity {
 
     @Column(length = 50, nullable = false)
     private String tipoTransaccion;
-
 }

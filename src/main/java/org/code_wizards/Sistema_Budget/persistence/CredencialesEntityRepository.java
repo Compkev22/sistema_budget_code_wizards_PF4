@@ -38,17 +38,19 @@ public class CredencialesEntityRepository implements CredencialesRepository {
     @Override
     public CredencialesDto guardarCredenciales(CredencialesDto credencialesDto) {
         // Validar si ya existe
-        if (this.crudCredencialesEntity.findFirstByEmail(credencialesDto.email()) != null) {
-            throw new CredencialesYaExisteException(credencialesDto.email());
+        CredencialesEntity existente = this.crudCredencialesEntity.findFirstByEmail(credencialesDto.email());
+        if (existente != null) {
+            throw new CredencialesYaExisteException(credencialesDto.userID(), credencialesDto.email());
         }
-        CredencialesEntity credenciales = this.credencialesMapper.toEntity(credencialesDto);
 
-        // Guardar en base de datos
+        // Mapear y guardar en base de datos
+        CredencialesEntity credenciales = this.credencialesMapper.toEntity(credencialesDto);
         this.crudCredencialesEntity.save(credenciales);
 
         // Retornar DTO
         return this.credencialesMapper.toDto(credenciales);
     }
+
 
     @Override
     public CredencialesDto modificarCredenciales(Long codigo, ModCredencialesDto modCredenciales) {
