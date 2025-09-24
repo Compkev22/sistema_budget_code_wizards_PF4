@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<h:html xmlns:h="http://xmlns.jcp.org/jsf/html"
+        xmlns:f="http://xmlns.jcp.org/jsf/core"
+        xmlns:p="http://primefaces.org/ui">
+
+    <h:head>
+        <title>Gestión de Usuarios - Sistema Budget</title>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+        <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-dark.css"/>
+        <style type="text/css">
+            body {
+                background: linear-gradient(135deg, #1e1e1e, #121212);
+                color: #e0e0e0;
+                font-family: 'Roboto', sans-serif;
+            }
+            .card {
+                background-color: rgba(30, 30, 30, 0.9);
+                border: 1px solid #444444;
+                border-radius: 20px;
+                padding: 1.5rem;
+                margin-bottom: 1.5rem;
+                box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
+            }
+            .card h3 {
+                color: #e0e0e0;
+                text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.4);
+            }
+            .ui-datatable {
+                border-radius: 12px;
+                overflow: hidden;
+                border: none;
+            }
+           .ui-datatable-header {
+                background-color: #3b82f6 !important;
+                color: #ffffff !important;
+                border: none !important;
+                padding: 1rem 1.5rem !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                white-space: nowrap;
+            }
+            .ui-datatable-header h3 {
+                color: #ffffff !important;
+                font-size: clamp(1.2rem, 3vw, 2rem) !important;
+                font-weight: bold !important;
+                letter-spacing: 1.5px !important;
+                margin: 0 !important;
+                white-space: nowrap;
+            }
+            .ui-datatable-thead th {
+                background-color: #2a2a2a !important;
+                color: #ffffff !important;
+                font-weight: 600;
+                font-size: 1rem;
+                border-bottom: 1px solid #444444;
+                padding: 1rem;
+            }
+            .ui-datatable-odd, .ui-datatable-even {
+                background-color: #1e1e1e !important;
+                color: #e0e0e0 !important;
+                transition: background-color 0.3s ease;
+            }
+            .ui-datatable-even {
+                background-color: #1a1a1a !important;
+            }
+            .ui-datatable-odd:hover, .ui-datatable-even:hover {
+                background-color: #2c2c2c !important;
+                cursor: pointer;
+            }
+            .ui-datatable td {
+                border-top: 1px solid #333333;
+                padding: 1rem;
+            }
+            .ui-datatable-footer {
+                background-color: #2a2a2a !important;
+                color: #ffffff !important;
+                border: none !important;
+                padding: 1rem;
+            }
+            .ui-button {
+                background-color: #4b5563 !important;
+                border: 1px solid #4b5563 !important;
+                color: #ffffff !important;
+                transition: all 0.3s ease;
+            }
+            .ui-button:hover {
+                background-color: #374151 !important;
+                border-color: #374151 !important;
+            }
+            .ui-button-primary {
+                background-color: #3b82f6 !important;
+                border-color: #2563eb !important;
+                color: #ffffff !important;
+            }
+            .ui-button-primary:hover {
+                background-color: #2563eb !important;
+                border-color: #1d4ed8 !important;
+            }
+            .ui-button-danger {
+                background-color: #dc2626 !important;
+                border-color: #b91c1c !important;
+                color: #ffffff !important;
+            }
+            .ui-button-danger:hover {
+                background-color: #b91c1c !important;
+                border-color: #991b1b !important;
+            }
+            .p-mb-4 {
+                margin-bottom: 1.5rem !important;
+            }
+            .ui-dialog, .ui-confirm-dialog {
+                background-color: #1e1e1e;
+                border-radius: 20px;
+                box-shadow: 0px 10px 30px rgba(0, 0, 0, 0.4);
+            }
+            .ui-dialog .ui-dialog-titlebar, .ui-confirm-dialog .ui-confirm-dialog-message {
+                background-color: #FFFFFF;
+                color: #000000;
+                border: none;
+            }
+            .ui-dialog .ui-dialog-title {
+                color: #000000;
+            }
+            .ui-fluid .field {
+                margin-bottom: 1rem;
+            }
+            .ui-fluid .field label {
+                display: block;
+                margin-bottom: 0.5rem;
+                color: #000000;
+            }
+            .ui-fluid .field input {
+                width: 100%;
+                padding: 0.75rem;
+                border: 1px solid #333333;
+                background-color: #1a1a1a;
+                color: #e0e0e0;
+                border-radius: 8px;
+                box-sizing: border-box;
+            }
+            .ui-fluid .field input:focus {
+                border-color: #3b82f6;
+                outline: none;
+                box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.4);
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div class="card">
+            <h:form id="formulario-usuarios">
+                <p:growl id="mensaje-emergente" showDetails="true"/>
+                <div class="card">
+                    <p:menubar>
+                        <f:facet name="options">
+                            <p:commandButton value="Nuevo Usuario" icon="pi pi-plus"
+                                             actionListener="#{usuarioControllerWeb.agregarUsuario}"
+                                             update=":formulario-modal:ventana-usuario"
+                                             oncomplete="PF('ventanaModalUsuario').show()"/>
+                        </f:facet>
+                    </p:menubar>
+                </div>
+                <div class="card">
+                    <p:dataTable value="#{usuarioControllerWeb.usuarios}" var="usuario"
+                                 id="tabla-usuarios" widgetVar="usuarioTabla"
+                                 emptyMessage="No se encontraron registros.">
+                        <f:facet name="header">
+                            <h3>Gestión de Usuarios - Sistema Budget</h3>
+                        </f:facet>
+                        <p:column headerText="ID">
+                            <h:outputText value="#{usuario.codigo}"/>
+                        </p:column>
+                        <p:column headerText="NOMBRE">
+                            <h:outputText value="#{usuario.name}"/>
+                        </p:column>
+                        <p:column headerText="APELLIDO">
+                            <h:outputText value="#{usuario.lastnameUser}"/>
+                        </p:column>
+                        <p:column headerText="TELÉFONO">
+                            <h:outputText value="#{usuario.telephone}"/>
+                        </p:column>
+                        <p:column headerText="NIT">
+                            <h:outputText value="#{usuario.nitUser}"/>
+                        </p:column>
+                        <p:column>
+                            <p:commandButton value="Editar" icon="pi pi-pencil"
+                                             update=":formulario-modal:ventana-usuario"
+                                             process="@this"
+                                             oncomplete="PF('ventanaModalUsuario').show()"
+                                             class="ui-button-primary"
+                                             style="margin-right:.5rem">
+                                <f:setPropertyActionListener
+                                        value="#{usuario}"
+                                        target="#{usuarioControllerWeb.usuarioSeleccionado}"/>
+                            </p:commandButton>
+                            <p:commandButton value="Eliminar" icon="pi pi-trash"
+                                             class="ui-button-danger"
+                                             process="@this"
+                                             oncomplete="PF('ventanaEliminarUsuario').show()">
+                                <f:setPropertyActionListener
+                                        value="#{usuario}"
+                                        target="#{usuarioControllerWeb.usuarioSeleccionado}"/>
+                            </p:commandButton>
+                        </p:column>
+                    </p:dataTable>
+                </div>
+            </h:form>
+            <h:form id="formulario-modal">
+                <p:dialog header="Detalle Usuario" showEffect="fade" modal="true"
+                          widgetVar="ventanaModalUsuario" responsive="true">
+                    <p:outputPanel id="ventana-usuario" class="ui-fluid">
+                        <div class="field">
+                            <p:outputLabel for="nombre">Nombre</p:outputLabel>
+                            <p:inputText id="nombre"
+                                         value="#{usuarioControllerWeb.usuarioSeleccionado.name}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="apellido">Apellido</p:outputLabel>
+                            <p:inputText id="apellido"
+                                         value="#{usuarioControllerWeb.usuarioSeleccionado.lastnameUser}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="telefono">Teléfono</p:outputLabel>
+                            <p:inputText id="telefono"
+                                         value="#{usuarioControllerWeb.usuarioSeleccionado.telephone}"
+                                         required="true"/>
+                        </div>
+                        <div class="field">
+                            <p:outputLabel for="nit">NIT</p:outputLabel>
+                            <p:inputText id="nit"
+                                         value="#{usuarioControllerWeb.usuarioSeleccionado.nitUser}"
+                                         required="true"/>
+                        </div>
+                    </p:outputPanel>
+                    <f:facet name="footer">
+                        <p:commandButton value="Guardar" icon="pi pi-check"
+                                         process="ventana-usuario @this"
+                                         actionListener="#{usuarioControllerWeb.guardarUsuario}"
+                                         update=":formulario-usuarios"
+                                         oncomplete="PF('ventanaModalUsuario').hide()"/>
+                        <p:commandButton value="Cancelar" icon="pi pi-times"
+                                         onclick="PF('ventanaModalUsuario').hide()"
+                                         class="ui-button-secondary" type="button"/>
+                    </f:facet>
+                </p:dialog>
+                <p:confirmDialog
+                        widgetVar="ventanaEliminarUsuario"
+                        showEffect="fade" width="300"
+                        message="¿Desea eliminar al usuario?"
+                        header="Confirmar" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check"
+                                     process="@this"
+                                     actionListener="#{usuarioControllerWeb.eliminarUsuario}"
+                                     update=":formulario-usuarios"
+                                     oncomplete="PF('ventanaEliminarUsuario').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times"
+                                     onclick="PF('ventanaEliminarUsuario').hide()"
+                                     styleClass="ui-button-secondary" type="button"/>
+                </p:confirmDialog>
+            </h:form>
+        </div>
+    </h:body>
+</h:html>
