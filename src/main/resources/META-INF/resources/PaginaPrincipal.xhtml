@@ -3,7 +3,7 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
-    <title>Opciones de Administradores - Funko Pop</title>
+    <title>Pagina Principal</title>
     <h:outputStylesheet library="webjars" name="bootstrap/5.3.2/css/bootstrap.min.css" />
     <style type="text/css">
         body {
@@ -52,54 +52,54 @@
         .buttone:nth-child(3) { background-color: #FF9800; } /* Naranja */
         .buttone:nth-child(4) { background-color: #F44336; } /* Rojo */
         .buttone:nth-child(5) { background-color: #9C27B0; } /* Púrpura */
-
-        .footer2 {
-            margin-top: auto;
-            width: 100%;
-            text-align: center;
-            padding: 1rem;
-            background-color: #f1f1f1;
-            border-top: 1px solid #ddd;
-        }
+        .buttone:nth-child(6) { background-color: #4CAF50; } /* Verde */
+        .buttone:nth-child(7) { background-color: #FF9800; } /* Naranja */
+        .buttone:nth-child(8) { background-color: #F44336; } /* Rojo */
     </style>
 </h:head>
 
 <h:body>
     <div class="main-container">
         <h:panelGroup layout="block" styleClass="title-container">
-            <h1 class="Ajuste">Opciones de Administradores</h1>
+            <h1 class="Ajuste">Opciones de CRUD</h1>
             <h3>A continuación se te brindarán opciones que te redirigirán a cada Entidad.</h3>
         </h:panelGroup>
 
         <div class="buttone-container">
-            <h:link outcome="/usuarios/listar" styleClass="buttone">
+            <h:link outcome="usuarios.xhtml" styleClass="buttone">
                 <h:outputText value="Usuarios" />
             </h:link>
 
-            <h:link outcome="/productos/listar" styleClass="buttone">
-                <h:outputText value="Productos" />
+            <h:link outcome="credenciales.xhtml" styleClass="buttone">
+                <h:outputText value="Credenciales" />
             </h:link>
 
-            <h:link outcome="/categorias/listar" styleClass="buttone">
-                <h:outputText value="Categorías" />
+            <h:link outcome="categoria.xhtml" styleClass="buttone">
+                <h:outputText value="Categoria" />
             </h:link>
 
-            <h:link outcome="/recibos/listar" styleClass="buttone">
-                <h:outputText value="Recibos" />
+            <h:link outcome="presupuesto.xhtml" styleClass="buttone">
+                <h:outputText value="Presupuesto" />
             </h:link>
 
-            <h:link outcome="/compras/listar" styleClass="buttone">
-                <h:outputText value="Compras" />
+            <h:link outcome="ingresos.xhtml" styleClass="buttone">
+                <h:outputText value="Ingresos" />
             </h:link>
+
+            <h:link outcome="gastos.xhtml" styleClass="buttone">
+                <h:outputText value="Gastos" />
+            </h:link>
+
+            <h:link outcome="transacciones.xhtml" styleClass="buttone">
+                <h:outputText value="Transacciones" />
+            </h:link>
+
+            <h:link outcome="metaAhorro.xhtml" styleClass="buttone">
+                <h:outputText value="Meta Ahorro" />
+            </h:link>
+
+
         </div>
     </div>
-
-    <footer class="footer2">
-        <div class="footer-contenido2">
-            <h:outputText value="&copy; 2025 Funko Pop Collection. Todos los derechos reservados."/>
-            <h:outputText value="Contacto: info@funkocollection.com | Tel: +502 1234-5678"/>
-            <h:outputText value="Dirección: Ciudad de Guatemala, Guatemala"/>
-        </div>
-    </footer>
 </h:body>
 </html>
