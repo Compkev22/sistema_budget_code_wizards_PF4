@@ -232,7 +232,7 @@
                                           styleClass="#{transaccion.typeTransaction eq 'INGRESO' ? 'tipo-ingreso' : 'tipo-gasto'}"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Editar" icon="pi pi-pencil"
+                            <p:commandButton icon="pi pi-pencil"
                                              update=":formulario-modal:ventana-transaccion"
                                              process="@this"
                                              oncomplete="PF('ventanaModalTransaccion').show()"
@@ -242,7 +242,7 @@
                                         value="#{transaccion}"
                                         target="#{transaccionControllerWeb.transaccionSeleccionada}"/>
                             </p:commandButton>
-                            <p:commandButton value="Eliminar" icon="pi pi-trash"
+                            <p:commandButton icon="pi pi-trash"
                                              class="ui-button-danger"
                                              process="@this"
                                              oncomplete="PF('ventanaEliminarTransaccion').show()">

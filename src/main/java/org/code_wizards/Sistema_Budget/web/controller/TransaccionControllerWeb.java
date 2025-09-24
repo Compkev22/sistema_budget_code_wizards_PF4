@@ -60,6 +60,11 @@ public class TransaccionControllerWeb implements Serializable {
         logger.info("Preparando nueva transacción");
     }
 
+    public void prepararParaEdicion(TransaccionDtoWeb transaccion) {
+        this.transaccionSeleccionada = transaccion;
+        logger.info("Preparando transacción para edición: " + transaccion.getIdTransaccion());
+    }
+
     public void guardarTransaccion() {
         try {
             logger.info("Transacción a guardar: " + this.transaccionSeleccionada);

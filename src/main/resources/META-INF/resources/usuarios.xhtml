@@ -207,7 +207,7 @@
                             <h:outputText value="#{usuario.nitUser}"/>
                         </p:column>
                         <p:column>
-                            <p:commandButton value="Editar" icon="pi pi-pencil"
+                            <p:commandButton icon="pi pi-pencil"
                                              update=":formulario-modal:ventana-usuario"
                                              process="@this"
                                              oncomplete="PF('ventanaModalUsuario').show()"
@@ -217,7 +217,7 @@
                                         value="#{usuario}"
                                         target="#{usuarioControllerWeb.usuarioSeleccionado}"/>
                             </p:commandButton>
-                            <p:commandButton value="Eliminar" icon="pi pi-trash"
+                            <p:commandButton icon="pi pi-trash"
                                              class="ui-button-danger"
                                              process="@this"
                                              oncomplete="PF('ventanaEliminarUsuario').show()">
