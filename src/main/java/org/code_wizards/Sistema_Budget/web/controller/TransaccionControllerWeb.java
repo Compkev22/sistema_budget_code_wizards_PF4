@@ -60,11 +60,6 @@ public class TransaccionControllerWeb implements Serializable {
         logger.info("Preparando nueva transacción");
     }
 
-    public void prepararParaEdicion(TransaccionDtoWeb transaccion) {
-        this.transaccionSeleccionada = transaccion;
-        logger.info("Preparando transacción para edición: " + transaccion.getIdTransaccion());
-    }
-
     public void guardarTransaccion() {
         try {
             logger.info("Transacción a guardar: " + this.transaccionSeleccionada);
@@ -87,7 +82,7 @@ public class TransaccionControllerWeb implements Serializable {
                         this.transaccionSeleccionada.getIdCategory(),
                         this.transaccionSeleccionada.getDescriptionTransaction(),
                         this.transaccionSeleccionada.getTransactionAmount(),
-                        new Date(), // Convertir LocalDate a Date si es necesario
+                        new Date(), 
                         this.transaccionSeleccionada.getTypeTransaction()
                 );
 

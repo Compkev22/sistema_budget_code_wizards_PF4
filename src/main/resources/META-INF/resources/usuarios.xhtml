@@ -149,7 +149,6 @@
             }
 
             .ui-fluid .field input,
-            .ui-fluid .field p\\:password input,
             .ui-fluid .field .ui-inputfield {
                 width: 100%;
                 padding: 0.65rem;
@@ -167,13 +166,13 @@
                 box-shadow: 0 0 0 2px rgba(74, 85, 104, 0.3);
                 outline: none;
             }
-
         </style>
     </h:head>
     <h:body>
         <div class="card">
             <h:form id="formulario-usuarios">
                 <p:growl id="mensaje-emergente" showDetails="true"/>
+
                 <div class="card">
                     <p:menubar>
                         <f:facet name="options">
@@ -184,6 +183,7 @@
                         </f:facet>
                     </p:menubar>
                 </div>
+
                 <div class="card">
                     <p:dataTable value="#{usuarioControllerWeb.usuarios}" var="usuario"
                                  id="tabla-usuarios" widgetVar="usuarioTabla"
@@ -228,7 +228,23 @@
                         </p:column>
                     </p:dataTable>
                 </div>
+
+                <p:confirmDialog
+                        widgetVar="ventanaEliminarUsuario"
+                        showEffect="fade" width="300"
+                        message="¿Desea eliminar al usuario?"
+                        header="Confirmar" severity="warn">
+                    <p:commandButton value="Sí" icon="pi pi-check"
+                                     actionListener="#{usuarioControllerWeb.eliminarUsuario}"
+                                     update=":formulario-usuarios:mensaje-emergente formulario-usuarios:tabla-usuarios"
+                                     oncomplete="PF('ventanaEliminarUsuario').hide()"/>
+                    <p:commandButton value="No" icon="pi pi-times"
+                                     onclick="PF('ventanaEliminarUsuario').hide()"
+                                     styleClass="ui-button-secondary" type="button"/>
+                </p:confirmDialog>
+
             </h:form>
+
             <h:form id="formulario-modal">
                 <p:dialog header="Detalle Usuario" showEffect="fade" modal="true"
                           widgetVar="ventanaModalUsuario" responsive="true">
@@ -269,20 +285,6 @@
                                          class="ui-button-secondary" type="button"/>
                     </f:facet>
                 </p:dialog>
-                <p:confirmDialog
-                        widgetVar="ventanaEliminarUsuario"
-                        showEffect="fade" width="300"
-                        message="¿Desea eliminar al usuario?"
-                        header="Confirmar" severity="warn">
-                    <p:commandButton value="Sí" icon="pi pi-check"
-                                     process="@this"
-                                     actionListener="#{usuarioControllerWeb.eliminarUsuario}"
-                                     update=":formulario-usuarios"
-                                     oncomplete="PF('ventanaEliminarUsuario').hide()"/>
-                    <p:commandButton value="No" icon="pi pi-times"
-                                     onclick="PF('ventanaEliminarUsuario').hide()"
-                                     styleClass="ui-button-secondary" type="button"/>
-                </p:confirmDialog>
             </h:form>
         </div>
     </h:body>

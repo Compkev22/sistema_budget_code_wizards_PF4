@@ -26,9 +26,9 @@ VALUES
 -- Insertar en la tabla Transaccion
 INSERT IGNORE INTO Transaccion (id_Categoria, descripcion_Transaccion, monto_Transaccion, fecha_Transaccion, tipo_Transaccion)
 VALUES
-(1, 'Compra supermercado', 300.00, '2023-01-05', 'Débito'),
-(2, 'Gasolina', 150.00, '2023-01-10', 'Débito'),
-(3, 'Cine', 120.00, '2023-02-05', 'Débito');
+(1, 'Compra supermercado', 300.00, '2023-01-05', 'INGRESO'),
+(2, 'Gasolina', 150.00, '2023-01-10', 'GASTO'),
+(3, 'Cine', 120.00, '2023-02-05', 'INGRESO');
 
 -- Insertar en la tabla Ingreso
 INSERT IGNORE INTO Ingreso (id_Presupuesto, id_Categoria, descripcion_Ingreso, monto_Ingreso, fecha_Ingreso)

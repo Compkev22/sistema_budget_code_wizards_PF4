@@ -13,6 +13,8 @@ import org.code_wizards.Sistema_Budget.dominio.service.UsuarioService;
 import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioYaExisteException;
 import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioNoExisteException;
 import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioNoEliminableException;
+import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioConCredencialesException;
+import org.code_wizards.Sistema_Budget.dominio.exception.UsuarioConPresupuestosException;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -111,8 +113,12 @@ public class UsuarioControllerWeb implements Serializable {
 
         } catch (UsuarioNoExisteException e) {
             mostrarMensaje(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage());
+        } catch (UsuarioConCredencialesException e) {
+            mostrarMensaje(FacesMessage.SEVERITY_WARN, e.getMessage(), e.getMessage()); // Changed line
+        } catch (UsuarioConPresupuestosException e) {
+            mostrarMensaje(FacesMessage.SEVERITY_WARN, e.getMessage(), e.getMessage()); // Changed line
         } catch (UsuarioNoEliminableException e) {
-            mostrarMensaje(FacesMessage.SEVERITY_WARN, "Advertencia", e.getMessage());
+            mostrarMensaje(FacesMessage.SEVERITY_WARN, e.getMessage(), e.getMessage()); // Changed line
         } catch (Exception e) {
             logger.error("Error al eliminar usuario: " + e.getMessage());
             mostrarMensaje(FacesMessage.SEVERITY_ERROR, "Error", "No se puede eliminar el usuario porque tiene datos asociados");

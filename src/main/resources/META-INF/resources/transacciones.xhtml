@@ -149,7 +149,6 @@
             }
 
             .ui-fluid .field input,
-            .ui-fluid .field p\\:password input,
             .ui-fluid .field .ui-inputfield {
                 width: 100%;
                 padding: 0.65rem;
@@ -168,22 +167,22 @@
                 outline: none;
             }
 
-                          .tipo-ingreso {
-                              color: #10b981 !important;
-                              font-weight: bold;
-                          }
-                          .tipo-gasto {
-                              color: #ef4444 !important;
-                              font-weight: bold;
-                          }
-                          .monto-positivo {
-                              color: #10b981;
-                              font-weight: bold;
-                          }
-                          .monto-negativo {
-                              color: #ef4444;
-                              font-weight: bold;
-                          }
+            .tipo-ingreso {
+                color: #10b981 !important;
+                font-weight: bold;
+            }
+            .tipo-gasto {
+                color: #ef4444 !important;
+                font-weight: bold;
+            }
+            .monto-positivo {
+                color: #10b981;
+                font-weight: bold;
+            }
+            .monto-negativo {
+                color: #ef4444;
+                font-weight: bold;
+            }
         </style>
     </h:head>
     <h:body>
@@ -284,7 +283,9 @@
                             <p:inputText id="fecha"
                                          value="#{transaccionControllerWeb.transaccionSeleccionada.transactionDate}"
                                          required="true"
-                                         placeholder="Ejemplo: 2024-12-25"/>
+                                         placeholder="Ejemplo: 2024-12-25">
+                                <f:convertDateTime pattern="yyyy-MM-dd" type="localDate"/>
+                            </p:inputText>
                         </div>
                         <div class="field">
                             <p:outputLabel for="tipo">Tipo de Transacción (INGRESO o GASTO)</p:outputLabel>
@@ -299,7 +300,7 @@
                                          process="ventana-transaccion @this"
                                          actionListener="#{transaccionControllerWeb.guardarTransaccion}"
                                          update=":formulario-transacciones"
-                                         oncomplete="PF('ventanaModalTransaccion').hide()"/>
+                                         oncomplete="if (!args.validationFailed) {PF('ventanaModalTransaccion').hide();}"/>
                         <p:commandButton value="Cancelar" icon="pi pi-times"
                                          onclick="PF('ventanaModalTransaccion').hide()"
                                          class="ui-button-secondary" type="button"/>
