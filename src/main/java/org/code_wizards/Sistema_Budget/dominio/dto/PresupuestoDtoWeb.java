@@ -14,14 +14,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 public class PresupuestoDtoWeb {
-    private Long idPresupuesto;
+    Long idPresupuesto;
     @NotNull(message = "El ID del usuario no puede estar vacío")
-    private Long idUser;
+    Long idUser;
     @NotBlank(message = "El nombre del presupuesto no puede estar vacío")
-    private String budgetName;
-    private String budgetPeriod;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
-    private Status status;
-    private BigDecimal totalPlannedAmount;
+    String budgetName;
+    String budgetPeriod;
+    LocalDateTime startDate;
+    LocalDateTime endDate;
+    Status status;
+    BigDecimal totalPlannedAmount;
 }

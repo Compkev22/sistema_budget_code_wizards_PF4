@@ -9,6 +9,7 @@ import lombok.Data;
 import org.code_wizards.Sistema_Budget.dominio.Status;
 import org.code_wizards.Sistema_Budget.dominio.dto.PresupuestoDto;
 import org.code_wizards.Sistema_Budget.dominio.dto.PresupuestoDtoWeb;
+import org.code_wizards.Sistema_Budget.dominio.exception.PresupuestoConMetaAhorroException;
 import org.code_wizards.Sistema_Budget.dominio.service.PresupuestoService;
 import org.primefaces.PrimeFaces;
 import org.slf4j.Logger;
@@ -38,6 +39,7 @@ public class PresupuestoControllerWeb implements Serializable {
     @PostConstruct
     public void init() {
         this.cargarPresupuestos();
+        this.estadosDisponibles = Arrays.asList(Status.values());
     }
 
     public void cargarPresupuestos() {
@@ -48,7 +50,7 @@ public class PresupuestoControllerWeb implements Serializable {
             // 2. Convierte cada DTO (record) en un DTOWeb (clase con getters/setters)
             //    y asigna el resultado a la lista que la vista consumirá.
             this.presupuestos = presupuestosDto.stream()
-                    .map(this::convertirAWeb) // Aquí se usa el método que convierte
+                    .map(this::convertirAWeb) // Aquí se usa el metodo que convierte
                     .collect(Collectors.toList());
 
             this.presupuestos.forEach(p -> logger.info("Presupuesto cargado: " + p.toString()));
@@ -60,6 +62,10 @@ public class PresupuestoControllerWeb implements Serializable {
 
     public void agregarPresupuesto() {
         this.presupuestoSeleccionado = new PresupuestoDtoWeb();
+
+        // Set a default status for a new budget
+        this.presupuestoSeleccionado.setStatus(Status.ACTIVO);
+
         logger.info("Preparando nuevo presupuesto");
     }
 
@@ -103,6 +109,10 @@ public class PresupuestoControllerWeb implements Serializable {
             mostrarMensaje(FacesMessage.SEVERITY_INFO, "Éxito", "Presupuesto eliminado exitosamente.");
             this.cargarPresupuestos();
 
+        }catch (PresupuestoConMetaAhorroException e) {
+            // Captura la excepción específica y muestra el mensaje predefinido
+            logger.warn("Intento de eliminar presupuesto con metas de ahorro: " + e.getMessage());
+            mostrarMensaje(FacesMessage.SEVERITY_WARN, "Advertencia", e.getMessage());
         } catch (Exception e) {
             logger.error("Error al eliminar presupuesto: " + e.getMessage());
             mostrarMensaje(FacesMessage.SEVERITY_ERROR, "Error", "Error al eliminar el presupuesto: " + e.getMessage());
@@ -114,6 +124,21 @@ public class PresupuestoControllerWeb implements Serializable {
         PrimeFaces.current().ajax().update("formulario-presupuestos:mensaje-emergente");
     }
 
+    public void prepararParaEdicion(PresupuestoDtoWeb presupuesto) {
+        // Crea una nueva instancia para evitar problemas de estado con el objeto de la tabla.
+        // Esto asegura que se refresque por completo el modelo en el diálogo.
+        this.presupuestoSeleccionado = new PresupuestoDtoWeb();
+        this.presupuestoSeleccionado.setIdPresupuesto(presupuesto.getIdPresupuesto());
+        this.presupuestoSeleccionado.setIdUser(presupuesto.getIdUser());
+        this.presupuestoSeleccionado.setBudgetName(presupuesto.getBudgetName());
+        this.presupuestoSeleccionado.setBudgetPeriod(presupuesto.getBudgetPeriod());
+        this.presupuestoSeleccionado.setStartDate(presupuesto.getStartDate());
+        this.presupuestoSeleccionado.setEndDate(presupuesto.getEndDate());
+        this.presupuestoSeleccionado.setStatus(presupuesto.getStatus());
+        this.presupuestoSeleccionado.setTotalPlannedAmount(presupuesto.getTotalPlannedAmount());
+
+        logger.info("Preparando presupuesto para edición: " + this.presupuestoSeleccionado.getBudgetName());
+    }
 
     public PresupuestoDtoWeb convertirAWeb(PresupuestoDto dto) {
         return new PresupuestoDtoWeb(

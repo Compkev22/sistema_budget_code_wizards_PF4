@@ -11,10 +11,10 @@ VALUES
 (2, 'maria.gomez@example.com', 'contraseña456', '2023-02-01');
 
 -- Insertar en la tabla Presupuesto
-INSERT IGNORE INTO Presupuesto (id_Usuario, nombre_Presupuesto, periodo_Presupuesto, fecha_Inicio, fecha_Fin,estado, monto_totalPlanificado)
+INSERT IGNORE INTO Presupuesto (id_Usuario, nombre_Presupuesto, periodo_Presupuesto, fecha_Inicio, fecha_Fin, estado, monto_totalPlanificado)
 VALUES
-(1, 'Presupuesto Enero', 'Enero 2023', '2023-01-01', '2023-01-31','COMPLETADO', 5000.00),
-(2, 'Presupuesto Febrero', 'Febrero 2023', '2023-02-01', '2023-02-28','COMPLETADO', 4000.00);
+(1, 'Presupuesto Enero', 'Enero 2023', '2023-01-01', '2023-01-31','INACTIVO', 5000.00),
+(2, 'Presupuesto Febrero', 'Febrero 2023', '2023-02-01', '2023-02-28','ACTIVO', 4000.00);
 
 -- Insertar en la tabla Categoria
 INSERT IGNORE INTO Categoria (id_Presupuesto, nombre_Categoria, tipo_Categoria, color_Identificacion, monto_Planificado, monto_Actual)
@@ -39,8 +39,8 @@ VALUES
 -- Insertar en la tabla GASTO
 INSERT INTO Gasto (id_Presupuesto, id_Categoria, descripcion_Gasto, categoria_Gasto, monto_Gasto, fecha_Gasto)
 VALUES
-(1, 1, 'Compra de víveres para el hogar', 'Alimentos', 150.75, '2025-09-20'),
-(1, 2, 'Factura de electricidad de septiembre', 'Servicios', 85.00, '2025-09-21');
+    (1, 1, 'Compra de víveres para el hogar', 'Alimentos', 150.75, '2025-09-20'),
+    (1, 2, 'Factura de electricidad de septiembre', 'Servicios', 85.00, '2025-09-21');
 
 -- Insertar en la tabla MetaAhorro
 INSERT IGNORE INTO Meta_ahorro (id_Presupuesto, nombre_Meta, monto_Objetivo, monto_Actual, fecha_Limite)

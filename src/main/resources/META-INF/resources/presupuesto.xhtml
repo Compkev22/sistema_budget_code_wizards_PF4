@@ -140,13 +140,13 @@
     <h:body>
         <div class="card">
             <h:form id="formulario-presupuestos">
-                <p:growl id="mensaje-emergente" showDetails="true"/>
+                <p:growl id="mensaje-emergente" showDetail="true" showSummary="true"/>
                 <div class="card">
                     <p:menubar>
                         <f:facet name="options">
                             <p:commandButton value="Nuevo Presupuesto" icon="pi pi-plus"
                                              actionListener="#{presupuestoControllerWeb.agregarPresupuesto}"
-                                             update=":formulario-modal:ventana-presupuesto"
+                                             update=":formulario-modal :formulario-presupuestos:mensaje-emergente"
                                              oncomplete="PF('ventanaModalPresupuesto').show()"
                                              styleClass="ui-button-primary"/>
                         </f:facet>
@@ -178,15 +178,11 @@
                         </p:column>
                         <p:column>
                             <p:commandButton icon="pi pi-pencil"
-                                             update=":formulario-modal:ventana-presupuesto"
-                                             process="@this"
+                                             actionListener="#{presupuestoControllerWeb.prepararParaEdicion(presupuesto)}"
+                                             update=":formulario-modal"
                                              oncomplete="PF('ventanaModalPresupuesto').show()"
                                              class="ui-button-primary"
-                                             style="margin-right:.5rem">
-                                <f:setPropertyActionListener
-                                        value="#{presupuesto}"
-                                        target="#{presupuestoControllerWeb.presupuestoSeleccionado}"/>
-                            </p:commandButton>
+                                             style="margin-right:.5rem"/>
                             <p:commandButton icon="pi pi-trash"
                                              class="ui-button-danger"
                                              process="@this"
@@ -202,7 +198,7 @@
             <h:form id="formulario-modal">
                 <p:dialog header="Detalle Presupuesto" showEffect="fade" modal="true"
                           widgetVar="ventanaModalPresupuesto" responsive="true">
-                    <p:outputPanel id="ventana-presupuesto" class="ui-fluid">
+                    <p:outputPanel id="ventana-presupuesto" class="ui-fluid" rendered="#{presupuestoControllerWeb.presupuestoSeleccionado ne null}">
                         <div class="field">
                             <p:outputLabel for="nombre">Nombre del Presupuesto</p:outputLabel>
                             <p:inputText id="nombre"
@@ -232,9 +228,11 @@
                         </div>
                         <div class="field">
                             <p:outputLabel for="estado">Estado</p:outputLabel>
-                            <p:inputText id="estado"
-                                         value="#{presupuestoControllerWeb.presupuestoSeleccionado.status}"
-                                         required="true"/>
+                            <p:selectOneMenu id="estado"
+                                             value="#{presupuestoControllerWeb.presupuestoSeleccionado.status}"
+                                             required="true">
+                                <f:selectItems value="#{presupuestoControllerWeb.estadosDisponibles}" var="s" itemLabel="#{s.display}" itemValue="#{s.name()}" />
+                            </p:selectOneMenu>
                         </div>
                         <div class="field">
                             <p:outputLabel for="fechaInicio">Fecha de Inicio</p:outputLabel>
