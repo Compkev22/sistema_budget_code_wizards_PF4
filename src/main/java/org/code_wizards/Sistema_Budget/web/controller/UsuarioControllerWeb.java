@@ -64,7 +64,6 @@ public class UsuarioControllerWeb implements Serializable {
             logger.info("Usuario a guardar: " + this.usuarioSeleccionado);
 
             if (this.usuarioSeleccionado.getCodigo() == null) {
-                // Crear nuevo usuario
                 UsuarioDto nuevoUsuario = new UsuarioDto(
                         null,
                         this.usuarioSeleccionado.getName(),
@@ -77,7 +76,6 @@ public class UsuarioControllerWeb implements Serializable {
                 mostrarMensaje(FacesMessage.SEVERITY_INFO, "Éxito", "Usuario agregado exitosamente");
 
             } else {
-                // Modificar usuario existente
                 ModUsuarioDto modUsuario = new ModUsuarioDto(
                         this.usuarioSeleccionado.getName(),
                         this.usuarioSeleccionado.getLastnameUser(),
