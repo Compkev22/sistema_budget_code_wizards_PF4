@@ -87,7 +87,7 @@ public class AuthService {
             if (!credenciales.getContrasena().equals(request.password())) {
                 throw new AuthException("Contraseña incorrecta");
             }
-            
+
             UsuarioEntity usuarioEntity = credenciales.getUsuario();
 
             if (usuarioEntity == null) {
