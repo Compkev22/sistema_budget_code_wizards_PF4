@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Gestión de Credenciales - Sistema Budget</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-light.css"/>
+    <style type="text/css">
+        body {
+            background: linear-gradient(135deg, #f5f5f5, #e9e9e9);
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem auto;
+            box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.08);
+            max-width: 1100px;
+        }
+
+        h1, h2, h3 {
+            color: #222;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        .ui-datatable {
+            border-radius: 12px;
+            overflow: hidden;
+            border: none;
+        }
+
+        .ui-datatable-header {
+            background-color: #4a5568 !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .ui-datatable-thead th {
+            background-color: #f1f1f1 !important;
+            color: #444 !important;
+            font-weight: 600;
+            padding: 0.75rem;
+        }
+
+        .ui-datatable-odd, .ui-datatable-even {
+            background-color: #ffffff !important;
+            transition: background-color 0.3s ease;
+        }
+
+        .ui-datatable-even {
+            background-color: #f9f9f9 !important;
+        }
+
+        .ui-datatable-odd:hover, .ui-datatable-even:hover {
+            background-color: #e2e8f0 !important;
+            cursor: pointer;
+        }
+
+        .ui-datatable td {
+            border-top: 1px solid #e5e5e5;
+            padding: 0.75rem;
+            color: #333;
+        }
+
+        .ui-button {
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .ui-button-primary {
+            background-color: #4a5568 !important;
+            border-color: #4a5568 !important;
+            color: #ffffff !important;
+        }
+        .ui-button-primary:hover {
+            background-color: #2d3748 !important;
+            border-color: #2d3748 !important;
+        }
+
+        .ui-button-danger {
+            background-color: #e53e3e !important;
+            border-color: #c53030 !important;
+            color: #fff !important;
+        }
+        .ui-button-danger:hover {
+            background-color: #c53030 !important;
+            border-color: #9b2c2c !important;
+        }
+
+        .ui-dialog, .ui-confirm-dialog {
+            background-color: #ffffff !important;
+            border-radius: 16px !important;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.25) !important;
+        }
+
+        .ui-dialog .ui-dialog-titlebar {
+            background-color: #4a5568 !important;
+            color: #fff !important;
+            border: none;
+            border-radius: 16px 16px 0 0;
+            padding: 1rem;
+            font-weight: bold;
+        }
+
+        .ui-fluid .field {
+            margin-bottom: 1rem;
+        }
+
+        .ui-fluid .field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .ui-fluid .field input,
+        .ui-fluid .field p\\:password input,
+        .ui-fluid .field .ui-inputfield {
+            width: 100%;
+            padding: 0.65rem;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            color: #333;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        .ui-fluid .field input:focus,
+        .ui-fluid .field .ui-inputfield:focus {
+            border-color: #4a5568;
+            box-shadow: 0 0 0 2px rgba(74, 85, 104, 0.3);
+            outline: none;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="card">
+        <h:form id="formCredenciales">
+            <p:growl id="messages" showDetail="true"/>
+
+            <div class="flex justify-content-between align-items-center p-mb-4">
+                <h2>Lista de Credenciales</h2>
+                <!-- BOTÓN NUEVA CREDENCIAL -->
+                <p:commandButton value="Nueva Credencial"
+                                 icon="pi pi-plus"
+                                 class="ui-button-primary"
+                                 actionListener="#{credencialesControllerWeb.prepararNuevaCredencial}"
+                                 oncomplete="PF('dlgNuevaCredencial').show();"
+                                 update=":formNuevaCredencial"/>
+
+            </div>
+
+            <p:dataTable value="#{credencialesControllerWeb.listaCredenciales}" var="cred"
+                         paginator="true" rows="10"
+                         rowKey="#{cred.idCredencial}"
+                         emptyMessage="No hay credenciales registradas.">
+                <f:facet name="header">
+                    <h3>Gestión de Credenciales</h3>
+                </f:facet>
+                <p:column headerText="ID"><h:outputText value="#{cred.idCredencial}"/></p:column>
+                <p:column headerText="Usuario ID"><h:outputText value="#{cred.userID}"/></p:column>
+                <p:column headerText="Email"><h:outputText value="#{cred.email}"/></p:column>
+                <p:column headerText="Contraseña"><h:outputText value="#{cred.password}"/></p:column>
+                <p:column headerText="Fecha"><h:outputText value="#{credencialesControllerWeb.formatFecha(cred.dateRecord)}"/></p:column>
+                <p:column headerText="Acciones">
+                    <p:commandButton icon="pi pi-pencil"
+                                      title="Editar"
+                                      class="ui-button-primary"
+                                      actionListener="#{credencialesControllerWeb.prepararEdicionCredencial(cred)}"
+                                      update=":formEditarCredencial"
+                                      oncomplete="PF('dlgEditarCredencial').show()"/>
+
+                    <p:commandButton icon="pi pi-trash"
+                                     title="Eliminar"
+                                     class="ui-button-danger"
+                                     onclick="PF('confirmEliminar').show();"
+                                     process="@this">
+                        <f:setPropertyActionListener target="#{credencialesControllerWeb.idCredencial}" value="#{cred.idCredencial}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog header="Editar Credencial" widgetVar="dlgEditarCredencial" modal="true" resizable="false" width="400">
+            <h:form id="formEditarCredencial">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <label>Usuario ID</label>
+                        <p:inputText value="#{credencialesControllerWeb.userID}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <p:inputText value="#{credencialesControllerWeb.email}" required="true"/>
+                    </div>
+                        <div class="field">
+                            <label>Contraseña</label>
+                            <p:inputText value="#{credencialesControllerWeb.password}" required="true"/>
+                        </div>
+                    <div class="flex justify-content-end gap-2 p-mb-4">
+                        <p:commandButton value="Cancelar" type="button" class="ui-button" onclick="PF('dlgEditarCredencial').hide()"/>
+                        <p:commandButton value="Guardar"
+                                         actionListener="#{credencialesControllerWeb.guardarCredencial}"
+                                         update=":formCredenciales :formEditarCredencial"
+                                         class="ui-button-primary"
+                                         oncomplete="PF('dlgEditarCredencial').hide()"/>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+
+
+        <p:dialog header="Nueva Credencial" widgetVar="dlgNuevaCredencial" modal="true" resizable="false" width="400">
+            <h:form id="formNuevaCredencial">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <label>Usuario ID</label>
+                        <p:inputText value="#{credencialesControllerWeb.userID}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <label>Email</label>
+                        <p:inputText value="#{credencialesControllerWeb.email}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <label>Contraseña</label>
+                        <p:password value="#{credencialesControllerWeb.password}" required="true"/>
+                    </div>
+                    <div class="flex justify-content-end gap-2 p-mb-4">
+                        <p:commandButton value="Cancelar" type="button" class="ui-button" onclick="PF('dlgNuevaCredencial').hide()"/>
+                        <p:commandButton value="Guardar"
+                                         actionListener="#{credencialesControllerWeb.guardarCredencial}"
+                                         update=":formCredenciales :formNuevaCredencial"
+                                         class="ui-button-primary"
+                                         oncomplete="PF('dlgNuevaCredencial').hide()"/>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+
+
+        <!-- Confirmación de eliminar -->
+        <p:confirmDialog widgetVar="confirmEliminar" header="Confirmación"
+                         message="¿Desea eliminar esta credencial?" severity="warn">
+            <p:commandButton value="Sí" actionListener="#{credencialesControllerWeb.eliminarCredencial}"
+                             update=":formCredenciales" oncomplete="PF('confirmEliminar').hide()"
+                             class="ui-button-danger"/>
+            <p:commandButton value="No" onclick="PF('confirmEliminar').hide()" type="button" class="ui-button"/>
+        </p:confirmDialog>
+    </div>
+</h:body>
+</html>

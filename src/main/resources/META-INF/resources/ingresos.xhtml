@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <title>Gestión de Ingresos - Sistema Budget</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex/themes/primeone-dark.css"/>
+    <style type="text/css">
+        body {
+            background: linear-gradient(135deg, #f5f5f5, #e9e9e9);
+            color: #333;
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Tarjetas principales */
+        .card {
+            background-color: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin: 1.5rem auto;
+            box-shadow: 0px 6px 14px rgba(0, 0, 0, 0.08);
+            max-width: 1100px;
+        }
+
+        /* Encabezados */
+        h1, h2, h3 {
+            color: #222;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* Tabla */
+        .ui-datatable {
+            border-radius: 12px;
+            overflow: hidden;
+            border: none;
+        }
+
+        .ui-datatable-header {
+            background-color: #4a5568 !important;
+            color: #ffffff !important;
+            font-weight: bold;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .ui-datatable-thead th {
+            background-color: #f1f1f1 !important;
+            color: #444 !important;
+            font-weight: 600;
+            padding: 0.75rem;
+        }
+
+        .ui-datatable-odd, .ui-datatable-even {
+            background-color: #ffffff !important;
+            transition: background-color 0.3s ease;
+        }
+
+        .ui-datatable-even {
+            background-color: #f9f9f9 !important;
+        }
+
+        .ui-datatable-odd:hover, .ui-datatable-even:hover {
+            background-color: #e2e8f0 !important;
+            cursor: pointer;
+        }
+
+        /* Celdas */
+        .ui-datatable td {
+            border-top: 1px solid #e5e5e5;
+            padding: 0.75rem;
+            color: #333;
+        }
+
+        /* Botones */
+        .ui-button {
+            border-radius: 8px !important;
+            padding: 0.5rem 1rem !important;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .ui-button-primary {
+            background-color: #4a5568 !important;
+            border-color: #4a5568 !important;
+            color: #ffffff !important;
+        }
+
+        .ui-button-primary:hover {
+            background-color: #2d3748 !important;
+            border-color: #2d3748 !important;
+        }
+
+        .ui-button-danger {
+            background-color: #e53e3e !important;
+            border-color: #c53030 !important;
+            color: #fff !important;
+        }
+
+        .ui-button-danger:hover {
+            background-color: #c53030 !important;
+            border-color: #9b2c2c !important;
+        }
+
+        /* Totales */
+        .total-card {
+            background-color: #edf2f7;
+            border: 1px solid #cbd5e0;
+            border-radius: 12px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2d3748;
+            text-align: right;
+        }
+
+        /* Diálogo */
+        .ui-dialog, .ui-confirm-dialog {
+            background-color: #ffffff !important;
+            border-radius: 16px !important;
+            box-shadow: 0px 8px 20px rgba(0,0,0,0.25) !important;
+        }
+
+        .ui-dialog .ui-dialog-titlebar {
+            background-color: #4a5568 !important;
+            color: #fff !important;
+            border: none;
+            border-radius: 16px 16px 0 0;
+            padding: 1rem;
+            font-weight: bold;
+        }
+
+        /* Formularios */
+        .ui-fluid .field {
+            margin-bottom: 1rem;
+        }
+
+        .ui-fluid .field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #444;
+            font-weight: 500;
+        }
+
+        .ui-fluid .field input,
+        .ui-fluid .field p\\:password input,
+        .ui-fluid .field .ui-inputfield {
+            width: 100%;
+            padding: 0.65rem;
+            border: 1px solid #d1d5db;
+            background-color: #f9fafb;
+            color: #333;
+            border-radius: 8px;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        .ui-fluid .field input:focus,
+        .ui-fluid .field .ui-inputfield:focus {
+            border-color: #4a5568;
+            box-shadow: 0 0 0 2px rgba(74, 85, 104, 0.3);
+            outline: none;
+        }
+    </style>
+</h:head>
+
+<h:body>
+    <div class="card">
+        <h:form id="formIngresos">
+            <p:growl id="messages" showDetail="true"/>
+
+            <div class="flex justify-content-between align-items-center p-mb-4">
+                <h2>Lista de Ingresos</h2>
+                <p:commandButton value="Nuevo Ingreso"
+                                 icon="pi pi-plus"
+                                 class="ui-button-primary"
+                                 onclick="PF('dlgIngreso').show();"
+                                 actionListener="#{ingresosControllerWeb.prepararNuevoIngreso}"
+                                 update=":formIngresos"/>
+            </div>
+
+            <!-- Contador de total ingresos -->
+            <div class="total-card">
+                Total Ingresos: <h:outputText value="#{ingresosControllerWeb.totalIngresos}"/>
+            </div>
+
+            <p:dataTable value="#{ingresosControllerWeb.listaIngresos}" var="ing"
+                         paginator="true" rows="10"
+                         rowKey="#{ing.idIngreso}"
+                         emptyMessage="No hay ingresos registrados.">
+                <f:facet name="header">
+                    <h3>Gestión de Ingresos</h3>
+                </f:facet>
+                <p:column headerText="ID"><h:outputText value="#{ing.idIngreso}"/></p:column>
+                <p:column headerText="Presupuesto ID"><h:outputText value="#{ing.idBudget}"/></p:column>
+                <p:column headerText="Categoría"><h:outputText value="#{ing.idCategory}"/></p:column>
+                <p:column headerText="Descripción"><h:outputText value="#{ing.descriptionEntry}"/></p:column>
+                <p:column headerText="Monto"><h:outputText value="#{ing.incomeAmount}"/></p:column>
+                <p:column headerText="Fecha"><h:outputText value="#{ingresosControllerWeb.formatFecha(ing.entryDate)}"/></p:column>
+                <p:column headerText="Acciones">
+                    <p:commandButton icon="pi pi-pencil"
+                                     title="Editar"
+                                     class="ui-button-primary"
+                                     update=":formIngresos :formDlgIngreso"
+                                     actionListener="#{ingresosControllerWeb.prepararEdicionIngreso(ing)}"
+                                     oncomplete="PF('dlgIngreso').show()"/>
+                    <p:commandButton icon="pi pi-trash"
+                                     title="Eliminar"
+                                     class="ui-button-danger"
+                                     onclick="PF('confirmEliminar').show();"
+                                     process="@this">
+                        <f:setPropertyActionListener target="#{ingresosControllerWeb.idIngreso}" value="#{ing.idIngreso}"/>
+                    </p:commandButton>
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+        <p:dialog header="Ingreso" widgetVar="dlgIngreso" modal="true" resizable="false" width="400">
+            <h:form id="formDlgIngreso">
+                <div class="ui-fluid">
+                    <div class="field">
+                        <label>Presupuesto ID</label>
+                        <p:inputText value="#{ingresosControllerWeb.idBudget}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <label>Categoría</label>
+                        <p:inputText value="#{ingresosControllerWeb.idCategory}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <label>Descripción</label>
+                        <p:inputText value="#{ingresosControllerWeb.descriptionEntry}" required="true"/>
+                    </div>
+                    <div class="field">
+                        <label>Monto</label>
+                        <p:inputNumber value="#{ingresosControllerWeb.incomeAmount}" required="true" decimalPlaces="2"/>
+                    </div>
+                    <div class="field">
+                        <label>Fecha</label>
+                        <p:datePicker value="#{ingresosControllerWeb.entryDate}" pattern="dd/MM/yyyy"/>
+                    </div>
+                    <div class="flex justify-content-end gap-2 p-mb-4">
+                        <p:commandButton value="Cancelar" type="button" class="ui-button" onclick="PF('dlgIngreso').hide()"/>
+                        <p:commandButton value="Guardar"
+                                         actionListener="#{ingresosControllerWeb.guardarIngreso}"
+                                         update=":formIngresos :formDlgIngreso"
+                                         class="ui-button-primary"
+                                         oncomplete="PF('dlgIngreso').hide()"/>
+                    </div>
+                </div>
+            </h:form>
+        </p:dialog>
+
+        <!-- Confirmación de eliminar -->
+        <p:confirmDialog widgetVar="confirmEliminar" header="Confirmación"
+                         message="¿Desea eliminar este ingreso?" severity="warn">
+            <p:commandButton value="Sí" actionListener="#{ingresosControllerWeb.eliminarIngreso}"
+                             update=":formIngresos" oncomplete="PF('confirmEliminar').hide()"
+                             class="ui-button-danger"/>
+            <p:commandButton value="No" onclick="PF('confirmEliminar').hide()" type="button" class="ui-button"/>
+        </p:confirmDialog>
+    </div>
+</h:body>
+</html>
