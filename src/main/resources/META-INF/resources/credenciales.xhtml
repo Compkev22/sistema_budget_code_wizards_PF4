@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+    <title>Lista de Credenciales</title>
+    <link rel="stylesheet" href="https://unpkg.com/primeflex@latest/primeflex.css"/>
+</h:head>
+
+<h:body class="p-4">
+
+    <h1 class="text-3xl font-bold mb-4">Lista de Credenciales</h1>
+
+    <h:form id="formCredenciales">
+
+        <!-- Tabla PrimeFaces -->
+        <p:dataTable value="#{credencialesJsf.listaCredenciales}" var="c"
+                     paginator="true" rows="10" styleClass="p-datatable-striped"
+                     responsiveLayout="scroll">
+
+            <p:column headerText="ID">
+                <h:outputText value="#{c.idCredencial}"/>
+            </p:column>
+
+            <p:column headerText="Email">
+                <h:outputText value="#{c.email}"/>
+            </p:column>
+
+            <p:column headerText="Usuario">
+                <h:outputText value="#{c.usuario.nombreUsuario}"/>
+            </p:column>
+
+            <p:column headerText="Fecha Registro">
+                <h:outputText value="#{credencialesJsf.formatFecha(c.dateRecord)}"/>
+            </p:column>
+
+        </p:dataTable>
+
+    </h:form>
+
+</h:body>
+</html>

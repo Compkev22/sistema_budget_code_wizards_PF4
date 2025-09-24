@@ -59,6 +59,18 @@
         </dependency>
 
         <dependency>
+            <groupId>org.joinfaces</groupId>
+            <artifactId>primefaces-spring-boot-starter</artifactId>
+            <version>5.4.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.primefaces.extensions</groupId>
+            <artifactId>primefaces-extensions</artifactId>
+            <version>14.0.12</version>
+            <classifier>jakarta</classifier>
+        </dependency>
+
+        <dependency>
             <groupId>dev.langchain4j</groupId>
             <artifactId>langchain4j-open-ai-spring-boot-starter</artifactId>
             <version>1.0.0-beta1</version>
